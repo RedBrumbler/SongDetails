@@ -45,7 +45,7 @@ jobs:
         uses: arduino/setup-protoc@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          version: '3.21.11'
+          version: '21.11'
       - name: Run protoc
         run: pwsh -Command ./run_protoc.ps1
       - name: Get Protobuf from vcpkg
