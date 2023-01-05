@@ -35,9 +35,13 @@ add_library(
     ${CMAKE_SOURCE_DIR}/src/SongProto.pb.cc # it ends in .cc so add it manually
 )
 
-# use a variable to change it later or when on GH actions
-set(VCPKG_INCLUDE_DIR "S:/Github/vcpkg/installed/arm64-android/include")
-target_include_directories(${COMPILE_ID} PRIVATE ${VCPKG_INCLUDE_DIR})
+
+# get the vcpkg dir from env variables
+if(NOT EXISTS $ENV{VCPKG_ROOT}) {
+    MESSAGE(ERROR "Please define the environment variable VCPKG_ROOT with the root to your vcpkg install!")
+}
+
+target_include_directories(${COMPILE_ID} PRIVATE "${VCPKG_ROOT}/installed/arm64-android/include")
 
 # add src dir as include dir
 target_include_directories(${COMPILE_ID} PRIVATE ${SOURCE_DIR})
@@ -51,7 +55,7 @@ target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGE
 # gzip library
 target_include_directories(${COMPILE_ID} PRIVATE ${INCLUDE_DIR}/gzip-hpp/include)
 
-target_link_libraries(${COMPILE_ID} PRIVATE -llog -lz "S:/Github/vcpkg/installed/arm64-android/lib/libprotobuf.a")
+target_link_libraries(${COMPILE_ID} PRIVATE -llog -lz "${VCPKG_ROOT}/installed/arm64-android/lib/libprotobuf.a")
 # add extern stuff like libs and other includes
 include(extern.cmake)
 
