@@ -41,11 +41,11 @@ jobs:
           lfs: true
       - uses: seanmiddleditch/gha-setup-ninja@v3
         name: Setup Ninja
-      - name: Setup Protoc
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          version: '3.x'
+      # - name: Setup Protoc
+      #  uses: arduino/setup-protoc@v1
+      #  with:
+      #    repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #    version: '3.x'
       # - name: Run protoc
       #   run: pwsh -Command ./run_protoc.ps1
       - name: Get Protobuf from vcpkg

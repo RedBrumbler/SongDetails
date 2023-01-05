@@ -4,8 +4,8 @@
   "info": {
     "name": "SongDetails",
     "id": "song-details",
-    "version": "0.1.0",
-    "url": null,
+    "version": "0.0.1",
+    "url": "https://github.com/RedBrumbler/SongDetails",
     "additionalData": {
       "overrideSoName": "libsongdetails.so"
     }
@@ -19,12 +19,16 @@
     {
       "id": "libcurl",
       "versionRange": "^7.78.0",
-      "additionalData": {}
+      "additionalData": {
+        "private": true
+      }
     },
     {
       "id": "paper",
       "versionRange": "^1.2.9",
-      "additionalData": {}
+      "additionalData": {
+        "private": true
+      }
     }
   ],
   "additionalData": {}
