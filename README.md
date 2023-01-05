@@ -7,7 +7,7 @@ When cloning the repo make sure to clone with submodules, as a submodule is used
 ## Requirements
  - QPM-Rust
  - VCPKG
- - NDK
+ - Android NDK
 
 I'm not going to give all the build instructions, since most are the same for beat saber mods, you just have to make sure you have a vcpkg install and that you run
 
