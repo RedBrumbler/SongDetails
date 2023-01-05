@@ -1,0 +1,38 @@
+syntax="proto3";
+
+package SongDetailsCache.Structs;
+
+message SongDifficultyProto {
+    uint32 characteristic = 1;
+    uint32 difficulty = 2;
+    uint32 starsT100 = 4;
+    uint32 njsT100 = 6;
+    uint32 bombs = 7;
+    uint32 notes = 8;
+    uint32 obstacles = 9;
+    uint32 mods = 10;
+}
+
+message SongProto {
+    float bpm = 1;
+    uint32 downloadCount = 2;
+    uint32 upvotes = 3;
+    uint32 downvotes = 4;
+    uint32 uploadTimeUnix = 5;
+    uint32 rankedChangeUnix = 14;
+    uint32 mapId = 6;
+    uint32 songDurationSeconds = 8;
+    bytes hashBytes = 9;
+    string songName = 10;
+    string songAuthorName = 11;
+    string levelAuthorName = 12;
+    uint32 rankedState = 15;
+    repeated SongDifficultyProto difficulties = 13;
+    string uploaderName = 16;
+}
+
+message SongProtoContainer {
+    uint32 formatVersion = 1;
+    uint64 scrapeEndedTimeUnix = 2;
+    repeated SongProto songs = 4;
+}
