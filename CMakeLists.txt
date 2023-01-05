@@ -37,9 +37,11 @@ add_library(
 
 
 # get the vcpkg dir from env variables
-if(NOT EXISTS $ENV{VCPKG_ROOT}) {
+if(EXISTS $ENV{VCPKG_ROOT})
+    set(VCPKG_ROOT $ENV{VCPKG_ROOT})
+else()
     MESSAGE(ERROR "Please define the environment variable VCPKG_ROOT with the root to your vcpkg install!")
-}
+endif()
 
 target_include_directories(${COMPILE_ID} PRIVATE "${VCPKG_ROOT}/installed/arm64-android/include")
 
