@@ -4,7 +4,7 @@
   "info": {
     "name": "SongDetails",
     "id": "song-details",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "url": "https://github.com/RedBrumbler/SongDetails",
     "additionalData": {
       "overrideSoName": "libsongdetails.so"
