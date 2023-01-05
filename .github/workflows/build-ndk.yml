@@ -46,8 +46,8 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           version: '3.x'
-      - name: Run protoc
-        run: pwsh -Command ./run_protoc.ps1
+      # - name: Run protoc
+      #   run: pwsh -Command ./run_protoc.ps1
       - name: Get Protobuf from vcpkg
         uses: johnwason/vcpkg-action@v4
         id: vcpkg
