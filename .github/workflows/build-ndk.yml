@@ -52,9 +52,21 @@ jobs:
         uses: johnwason/vcpkg-action@v4
         id: vcpkg
         with:
-          pkgs: protobuf
+          manifest-dir: ${{ github.workspace }}
           triplet: arm64-android
           token: ${{ github.token }}
+      - name: VCPKG Cache
+        id: cache-vcpkg
+        uses: actions/cache@v2
+        env:
+          cache-name: ${{ steps.vcpkg.outputs.vcpkg_cache }}
+        with:
+          path: ${{ github.workspace }}/vcpkg
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Create ndkpath.txt
         run: |
           echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
