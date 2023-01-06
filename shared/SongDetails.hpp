@@ -1,5 +1,6 @@
 #pragma once
 
+#include "beatsaber-hook/shared/utils/typedefs-wrappers.hpp"
 #include "Data/Song.hpp"
 #include "Data/SongDifficulty.hpp"
 #include "SongArray.hpp"
