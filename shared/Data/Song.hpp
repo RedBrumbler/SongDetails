@@ -21,6 +21,13 @@ namespace SongDetailsCache {
             /// @brief downvotes of this map
             const uint32_t downvotes;
 
+            /// @brief get the minimum of some value you want to know the minimum of for all the diffs of this song
+            /// @param func the lambda that returns the value
+            /// @return lowest value found
+            float min(std::function<float(const SongDifficulty&)> func) const;
+            /// @brief get the maximum of some value you want to know the maximum of for all the diffs of this song
+            float max(std::function<float(const SongDifficulty&)> func) const;
+
             /// @brief calculates the rating for this map based on the downvotes and upvotes
             float rating() const noexcept;
             /// @brief Gets the minimum njs for all diffs of this song

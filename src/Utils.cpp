@@ -30,7 +30,7 @@ namespace SongDetailsCache {
     std::string HexUtil::SongBytesToHash(std::size_t index) {
         std::string result;
         result.resize(SongDetailsContainer::HASH_SIZE_BYTES * 2);
-        auto bytes = &SongDetailsContainer::hashBytes->operator[](index * SongDetailsContainer::HASH_SIZE_BYTES);
+        const uint8_t* bytes = SongDetailsContainer::hashBytes->operator[](index);
 
         uint16_t* resultP2 = (uint16_t*)result.data();
         for (std::size_t i = 0; i < SongDetailsContainer::HASH_SIZE_BYTES; i++) {
@@ -49,6 +49,14 @@ namespace SongDetailsCache {
         {'4', 0x4}, {'5', 0x5}, {'6', 0x6}, {'7', 0x7},
         {'8', 0x8}, {'9', 0x9}
     };
+
+    SongHash HexUtil::ToSongHash(const std::string_view& hex) {
+        try {
+            return *(SongHash*)ToBytes(hex).data();
+        } catch (const std::exception& e) {
+            return SongHash();
+        }
+    }
 
     std::vector<uint8_t> HexUtil::ToBytes(const std::string_view& hex) {
         std::vector<uint8_t> result{};

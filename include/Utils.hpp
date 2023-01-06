@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Data/SongDetailsContainer.hpp"
 #include <string>
 #include <vector>
 #include <span>
@@ -14,6 +15,7 @@ namespace SongDetailsCache {
 
             /// @throw throws if the passed hex string contains non-hex letters
             static std::vector<uint8_t> ToBytes(const std::string_view& hex);
+            static SongHash ToSongHash(const std::string_view& hex);
     };
 
     class WebUtil {

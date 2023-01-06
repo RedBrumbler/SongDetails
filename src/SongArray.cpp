@@ -1,5 +1,6 @@
 #include "SongArray.hpp"
 #include "Utils.hpp"
+#include "logging.hpp"
 #include "Data/SongDetailsContainer.hpp"
 
 namespace SongDetailsCache {
@@ -33,56 +34,48 @@ namespace SongDetailsCache {
 
     bool SongArray::FindByHash(const std::string_view& hash, const Song*& out) {
         if (hash.size() != 40) {
+            ERROR("Hash size was not 40, this is an invalid hash! hash: {}", hash);
             out = &Song::none;
             return false;
         }
 
-        auto bytes = HexUtil::ToBytes(hash);
-        auto _a = bytes.data();
-        auto c1 = *(uint32_t*)_a;
-        auto c2 = *(uint64_t*)(_a + 4);
-        auto c3 = *(uint64_t*)(_a + 12);
-        auto comp = [&](uint8_t* a) -> bool {
-            return *(uint64_t*)(a + 4) == c2 &&
-                    *(uint64_t*)(a + 12) == c3;
-        };
-        uint32_t sz = SongDetailsContainer::songs->size();
-		uint32_t searchNeedle = (uint32_t)(sz * c1 * hashLookupDivisorInverse);
+        auto songHash = HexUtil::ToSongHash(hash);
+
+        auto sz = size();
+		uint32_t searchNeedle = (uint32_t)((float)sz * (float)songHash.c1 * hashLookupDivisorInverse);
 
 		for(uint32_t i = searchNeedle; i < sz; i++) {
 			uint32_t songIndex = SongDetailsContainer::hashBytesLUT->operator[](i);
-			uint8_t* hBytes = SongDetailsContainer::hashBytes->data() + (songIndex * SongDetailsContainer::HASH_SIZE_BYTES);
-            uint32_t a = *(uint32_t*)hBytes;
+            const auto& hash = SongDetailsContainer::hashBytes->operator[](songIndex);
 
-            if (a > c1)
+            if (hash.c1 > songHash.c1)
                 break;
-            else if (a != c1)
+            else if (hash.c1 != songHash.c1)
                 continue;
-            if (comp(hBytes)) {
+            if (hash.c2 == songHash.c2 && hash.c3 == songHash.c3) {
                 out = &SongDetailsContainer::songs->operator[](songIndex);
                 return true;
             }
 
         }
 
-		for(uint32_t i = searchNeedle; i >= 0; i--) {
+		for(uint32_t i = searchNeedle; i-- > 0;) {
 			uint32_t songIndex = SongDetailsContainer::hashBytesLUT->operator[](i);
-			uint8_t* hBytes = SongDetailsContainer::hashBytes->data() + (songIndex * SongDetailsContainer::HASH_SIZE_BYTES);
-            uint32_t a = *(uint32_t*)hBytes;
+            const auto& hash = SongDetailsContainer::hashBytes->operator[](songIndex);
 
-            if(a < c1)
+            if (hash.c1 < songHash.c1)
                 break;
-            else if(a != c1)
+            else if (hash.c1 != songHash.c1)
                 continue;
-
-            if(comp(hBytes)) {
+            if (hash.c2 == songHash.c2 && hash.c3 == songHash.c3) {
                 out = &SongDetailsContainer::songs->operator[](songIndex);
                 return true;
             }
         }
 
+        INFO("Song hash '{}' was not found at all in the dataset", hash);
         out = &Song::none;
-        return true;
+        return false;
     }
 
     const Song& SongArray::FindByHash(const std::string_view& hash) {

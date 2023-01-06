@@ -9,7 +9,7 @@
 
 namespace SongDetailsCache {
     shared_ptr_vector<uint32_t> SongDetailsContainer::keys;
-    shared_ptr_vector<uint8_t> SongDetailsContainer::hashBytes;
+    shared_ptr_vector<SongHash> SongDetailsContainer::hashBytes;
     shared_ptr_vector<uint32_t> SongDetailsContainer::hashBytesLUT;
     shared_ptr_vector<std::string> SongDetailsContainer::songNames;
     shared_ptr_vector<std::string> SongDetailsContainer::songAuthorNames;
@@ -140,10 +140,10 @@ namespace SongDetailsCache {
 
 		auto newKeys = make_shared_vec<uint32_t>();
         newKeys->reserve(len);
-		auto newHashes = make_shared_vec<uint8_t>();
-        newHashes->resize(len * HASH_SIZE_BYTES);
-		auto newHashesLUT = make_shared_vec<uint32_t>();
+		auto newHashes = make_shared_vec<SongHash>();
         newHashes->reserve(len);
+		auto newHashesLUT = make_shared_vec<uint32_t>();
+        newHashesLUT->reserve(len);
 
 		auto newSongNames = make_shared_vec<std::string>();
         newSongNames->reserve(len);
@@ -165,7 +165,7 @@ namespace SongDetailsCache {
             uint8_t diffCount = std::min(255, parsedSong->difficulties_size());
             const auto& builtSong = newSongs->emplace_back(i, diffIndex, diffCount, parsedSong);
             newKeys->emplace_back(parsedSong->mapid());
-            std::memcpy(newHashes->data() + (i * HASH_SIZE_BYTES), parsedSong->hashbytes().c_str(), HASH_SIZE_BYTES);
+            newHashes->emplace_back(parsedSong->hashbytes());
 
             newSongNames->emplace_back(parsedSong->songname());
             newSongAuthorNames->emplace_back(parsedSong->songauthorname());
@@ -185,11 +185,11 @@ namespace SongDetailsCache {
         sortedByHashes.resize(len);
         for (std::size_t idx = 0; const auto& s : *newSongs) sortedByHashes[idx++] = &s;
         std::stable_sort(sortedByHashes.begin(), sortedByHashes.end(), [&](const Song* lhs, const Song* rhs){
-            return *(newHashes->data() + (lhs->index * HASH_SIZE_BYTES)) < *(newHashes->data() + (rhs->index * HASH_SIZE_BYTES));
+            return newHashes->operator[](lhs->index).c1 < newHashes->operator[](rhs->index).c1;
         });
 
-        for (std::size_t i = 0; i < len; i++) {
-            newHashesLUT->emplace_back(sortedByHashes[i]->index);
+        for (const auto& sorted : sortedByHashes) {
+            newHashesLUT->emplace_back(sorted->index);
         }
 
         INFO("Made hashes LUT in {}ms", sw.EllapsedMilliseconds());
@@ -216,4 +216,7 @@ namespace SongDetailsCache {
             } catch (const std::exception& _) {}
         }
     }
+
+    SongHash::SongHash(const std::string& str) : SongHash() { std::memcpy((void*)&c1, str.c_str(), SongDetailsContainer::HASH_SIZE_BYTES); }
+    SongHash::SongHash() : c1(0), c2(0), c3(0) {}
 }

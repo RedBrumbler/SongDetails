@@ -18,20 +18,40 @@ namespace SongDetailsCache {
     namespace Structs {
         class SongProtoContainer;
     }
+    #pragma pack(push, 1)
+    struct SongHash {
+        public:
+            const uint32_t c1 = 0;
+            const uint64_t c2 = 0;
+            const uint64_t c3 = 0;
+            operator const uint8_t*() const noexcept { return reinterpret_cast<const uint8_t*>(&c1); }
+
+            SongHash(const std::string& str);
+            bool operator ==(const SongHash& other) const noexcept { return c1 == other.c1 && c2 == other.c2 && c3 == other.c3; }
+        private:
+            SongHash();
+            friend class SongDetailsContainer;
+            friend class HexUtil;
+    };
+    #pragma pack(pop)
+    static_assert(sizeof(SongHash) == (sizeof(uint8_t) * 20), "SongHashes should be 20 bytes");
+
     class SongDetailsContainer {
         public:
             static std::future<void> Load(bool reload = false, int acceptableAgeHours = 1);
         private:
             friend struct Song;
             friend struct SongDifficulty;
+            friend struct SongHash;
             friend class SongDetails;
             friend class HexUtil;
             friend class SongArray;
             friend class DiffArray;
 
             static constexpr const int HASH_SIZE_BYTES = 20;
+            static_assert(HASH_SIZE_BYTES == sizeof(SongHash), "Song hashes should be 20 bytes");
             static shared_ptr_vector<uint32_t> keys;
-            static shared_ptr_vector<uint8_t> hashBytes;
+            static shared_ptr_vector<SongHash> hashBytes;
             static shared_ptr_vector<uint32_t> hashBytesLUT;
             static shared_ptr_vector<std::string> songNames;
             static shared_ptr_vector<std::string> songAuthorNames;
