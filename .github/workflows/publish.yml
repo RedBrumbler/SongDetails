@@ -93,8 +93,10 @@ jobs:
         id: get_tag_version
         run: |
           echo ${GITHUB_REF#refs/tags/}
-          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+          echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+#          echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+#          echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
 
       - name: QPM Edit Version
         run: |
@@ -125,7 +127,8 @@ jobs:
         id: get_commit_id
         run: |
           echo `git rev-parse HEAD`
-          echo ::set-output name=ID::`git rev-parse HEAD`
+          echo "ID=${git rev-parse HEAD}" >> $GITHUB_OUTPUT
+#          echo ::set-output name=ID::`git rev-parse HEAD`
 
       - name: Force create tag
         run: |
@@ -152,7 +155,8 @@ jobs:
         run: |
           url=$(echo "$response" | jq -r '.upload_url')
           echo $url
-          echo "::set-output name=upload_url::$url"
+          echo "upload_url=$url" >> $GITHUB_OUTPUT
+#          echo "::set-output name=upload_url::$url"
         env: 
             response:  ${{ steps.get_release.outputs.data }}
 
@@ -162,7 +166,7 @@ jobs:
           cd ./build/
           pattern="lib${module_id}*.so"
           files=( $pattern )
-          echo ::set-output name=NAME::"${files[0]}"
+          echo "NAME=${files[0]}" >> $GITHUB_OUTPUT
 
       - name: Upload Release Asset
         id: upload_release_asset
@@ -213,7 +217,8 @@ jobs:
         id: get_created_commit_id
         run: |
           echo `git rev-parse HEAD`
-          echo ::set-output name=ID::`git rev-parse HEAD`
+          echo "ID=${git rev-parse HEAD}" >> $GITHUB_OUTPUT
+#          echo ::set-output name=ID::`git rev-parse HEAD`
 
       - name: Push New Commit and Tag
         run: |

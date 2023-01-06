@@ -127,7 +127,6 @@ jobs:
           pattern="lib${module_id}*.so"
           files=( $pattern )
           echo "NAME=${files[0]}" >> $GITHUB_OUTPUT
-#          echo ::set-output name=NAME::"${files[0]}"
 
       - name: Upload release artifact
         if: "${{ env.WEBHOOK != '' }}"
