@@ -14,6 +14,11 @@ namespace SongDetailsCache {
 			[[nodiscard]] const SongDifficulty& operator [](std::size_t index) const noexcept;
 			/// @brief essentially a bounds checked operator[]
             [[nodiscard]] const SongDifficulty& at(std::size_t index) const noexcept;
+
+            /// @brief deleted because use references
+			DiffArray(DiffArray&&) = delete;
+			/// @brief deleted because use references
+			DiffArray(const DiffArray&) = delete;
         private:
             friend class SongDetails;
             DiffArray() noexcept;

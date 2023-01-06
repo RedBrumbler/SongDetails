@@ -43,6 +43,11 @@ namespace SongDetailsCache {
 			/// @param key Map ID
 			/// @return Found song, otherwise returns Song::none
 			const Song& FindByMapId(uint32_t key);
+
+			/// @brief deleted because use references
+			SongArray(SongArray&&) = delete;
+			/// @brief deleted because use references
+			SongArray(const SongArray&) = delete;
 		private:
 			friend class SongDetails;
 			SongArray() noexcept;
