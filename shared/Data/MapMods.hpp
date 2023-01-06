@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 namespace SongDetailsCache {
     /// @brief Enum describing common mods that maps tend to use
     enum class MapMods {
@@ -31,6 +32,15 @@ namespace SongDetailsCache {
     static bool hasFlags(const MapMods& lhs, const MapMods& rhs) {
         return (lhs & rhs) == rhs;
     }
+
+    static std::vector<std::string> toVectorOfStrings(const MapMods& mods) {
+        std::vector<std::string> result{};
+        if (hasFlags(mods, MapMods::NoodleExtensions)) result.emplace_back("Noodle Extensions");
+        if (hasFlags(mods, MapMods::MappingExtensions)) result.emplace_back("Mapping Extensions");
+        if (hasFlags(mods, MapMods::Chroma)) result.emplace_back("Chroma");
+        if (hasFlags(mods, MapMods::Cinema)) result.emplace_back("Cinema");
+        return result;
+    }
 }
 
 // if we have fmt, add formatting methods
@@ -41,36 +51,14 @@ template <> struct fmt::formatter<::SongDetailsCache::MapMods> : formatter<strin
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::MapMods c, FormatContext& ctx) {
+        auto vec = ::SongDetailsCache::toVectorOfStrings(c);
+        if (vec.empty()) return "None";
         std::stringstream result;
-        result << "[";
-        bool any = false;
-        bool first = true;
-        if (SongDetailsCache::hasFlags(c, SongDetailsCache::MapMods::NoodleExtensions)) {
-            result << "NoodleExtensions";
-            first = false;
-            any = true;
+        for (bool first = true; const auto& v : vec) {
+            if (first) first = false;
+            else result << ", ";
+            result << v;
         }
-        if (SongDetailsCache::hasFlags(c, SongDetailsCache::MapMods::MappingExtensions)) {
-            if (first) result << "MappingExtensions";
-            else result << ", MappingExtensions";
-            first = false;
-            any = true;
-        }
-        if (SongDetailsCache::hasFlags(c, SongDetailsCache::MapMods::Chroma)) {
-            if (first) result << "Chroma";
-            else result << ", Chroma";
-            first = false;
-            any = true;
-        }
-        if (SongDetailsCache::hasFlags(c, SongDetailsCache::MapMods::Cinema)) {
-            if (first) result << "Cinema";
-            else result << ", Cinema";
-            first = false;
-            any = true;
-        }
-
-        if (!any) result << "None";
-        result << "]";
         return result.str();
     }
 };

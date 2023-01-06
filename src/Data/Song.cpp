@@ -19,6 +19,55 @@ namespace SongDetailsCache {
         rankedStatus(static_cast<RankedStatus>(proto ? proto->rankedstate() : 0))
         {}
 
+    float Song::rating() const noexcept {
+        float tot = upvotes + downvotes;
+        if (tot == 0) return 0;
+        float tmp = upvotes / tot;
+        return (float)(tmp - (tmp - 0.5f) * pow(2, -log10f(tot + 1)));
+    }
+
+    /// @brief Gets the minimum njs for all diffs of this song
+    float Song::minNJS() const noexcept {
+        float min = std::numeric_limits<float>::min();
+        for (const auto& diff : *this) min = std::min(min, diff.njs);
+        return min;
+    }
+
+    /// @brief Gets the maximum njs for all diffs of this song
+    float Song::maxNJS() const noexcept {
+        float max = 0.0f;
+        for (const auto& diff : *this) max = std::max(max, diff.njs);
+        return max;
+    }
+
+    /// @brief Gets the maximum star value in all diffs of this song
+    float Song::minStar() const noexcept {
+        float min = std::numeric_limits<float>::min();
+        for (const auto& diff : *this) min = std::min(min, diff.stars);
+        return min;
+    }
+
+    /// @brief Gets the maximum star value in all diffs of this song
+    float Song::maxStar() const noexcept {
+        float max = 0.0f;
+        for (const auto& diff : *this) max = std::max(max, diff.stars);
+        return max;
+    }
+
+    /// @brief Gets the maximum pp value in all diffs of this song
+    float Song::minPP() const noexcept {
+        float min = std::numeric_limits<float>::min();
+        for (const auto& diff : *this) min = std::min(min, diff.approximatePpValue());
+        return min;
+    }
+
+    /// @brief Gets the maximum pp value in all diffs of this song
+    float Song::maxPP() const noexcept {
+        float max = 0.0f;
+        for (const auto& diff : *this) max = std::max(max, diff.approximatePpValue());
+        return max;
+    }
+
     std::chrono::sys_time<std::chrono::seconds> Song::uploadTime() const noexcept {
         return std::chrono::sys_time<std::chrono::seconds>(std::chrono::seconds(uploadTimeUnix));
     }
