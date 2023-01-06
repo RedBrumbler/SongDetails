@@ -127,7 +127,7 @@ jobs:
         id: get_commit_id
         run: |
           echo `git rev-parse HEAD`
-          echo "ID=${`git rev-parse HEAD`}" >> $GITHUB_OUTPUT
+          echo "ID=`git rev-parse HEAD`" >> $GITHUB_OUTPUT
 #          echo ::set-output name=ID::`git rev-parse HEAD`
 
       - name: Force create tag
@@ -217,7 +217,7 @@ jobs:
         id: get_created_commit_id
         run: |
           echo `git rev-parse HEAD`
-          echo "ID=${`git rev-parse HEAD`}" >> $GITHUB_OUTPUT
+          echo "ID=`git rev-parse HEAD`" >> $GITHUB_OUTPUT
 #          echo ::set-output name=ID::`git rev-parse HEAD`
 
       - name: Push New Commit and Tag
