@@ -29,6 +29,48 @@ namespace SongDetailsCache {
                 return (float)(tmp - (tmp - 0.5f) * pow(2, -log10f(tot + 1)));
             }
 
+            /// @brief Gets the minimum njs for all diffs of this song
+            float minNJS() const noexcept {
+                float min = std::numeric_limits<float>::min();
+                for (const auto& diff : *this) min = std::min(min, diff.njs);
+                return min;
+            }
+
+            /// @brief Gets the maximum njs for all diffs of this song
+            float maxNJS() const noexcept {
+                float max = 0.0f;
+                for (const auto& diff : *this) max = std::max(max, diff.njs);
+                return max;
+            }
+
+            /// @brief Gets the maximum star value in all diffs of this song
+            float minStar() const noexcept {
+                float min = std::numeric_limits<float>::min();
+                for (const auto& diff : *this) min = std::min(min, diff.stars);
+                return min;
+            }
+
+            /// @brief Gets the maximum star value in all diffs of this song
+            float maxStar() const noexcept {
+                float max = 0.0f;
+                for (const auto& diff : *this) max = std::max(max, diff.stars);
+                return max;
+            }
+
+            /// @brief Gets the maximum pp value in all diffs of this song
+            float minPP() const noexcept {
+                float min = std::numeric_limits<float>::min();
+                for (const auto& diff : *this) min = std::min(min, diff.approximatePpValue());
+                return min;
+            }
+
+            /// @brief Gets the maximum pp value in all diffs of this song
+            float maxPP() const noexcept {
+                float max = 0.0f;
+                for (const auto& diff : *this) max = std::max(max, diff.approximatePpValue());
+                return max;
+            }
+
             /// @brief Unix timestamp of when the map was uploaded
             const uint32_t uploadTimeUnix;
             /// @brief Unix timestamp of when any of the difficulties of this map changed its ranked status
