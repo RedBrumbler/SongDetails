@@ -11,6 +11,7 @@ namespace SongDetailsCache {
         SongDetailsContainer::dataAvailableOrUpdatedInternal += {&SongDetails::DataAvailableOrUpdated};
         SongDetailsContainer::dataLoadFailedInternal += {&SongDetails::DataLoadFailed};
     }
+
     std::future<SongDetails*> SongDetails::Init() { return Init(3); }
     std::future<SongDetails*> SongDetails::Init(int refreshIfOlderThanHours) {
         if (!isLoading) {
@@ -18,20 +19,19 @@ namespace SongDetailsCache {
             // essentially dispatches a load thread through std::async with launc::async
             SongDetailsContainer::Load(false, refreshIfOlderThanHours);
         }
-        /// TODO: something so if loading fails this does not block forever
         return std::async(std::launch::deferred, []{
-            while(!SongDetailsContainer::get_isDataAvailable())
+            while(!SongDetailsContainer::get_isDataAvailable() && isLoading)
                 std::this_thread::yield();
             return &instance;
         });
     }
 
     void SongDetails::DataAvailableOrUpdated() {
-
+        instance.dataAvailableOrUpdated.invoke();
     }
 
     void SongDetails::DataLoadFailed() {
-
+        instance.dataLoadFailed.invoke();
     }
 
     void SongDetails::SetCacheDirectory(std::filesystem::path path) {

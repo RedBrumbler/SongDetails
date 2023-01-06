@@ -21,9 +21,6 @@ namespace SongDetailsCache {
     class SongDetailsContainer {
         public:
             static std::future<void> Load(bool reload = false, int acceptableAgeHours = 1);
-            static UnorderedEventCallback<> dataAvailableOrUpdated;
-            static UnorderedEventCallback<> dataLoadFailed;
-
         private:
             friend struct Song;
             friend struct SongDifficulty;

@@ -22,9 +22,7 @@ namespace SongDetailsCache {
     shared_ptr_vector<Song> SongDetailsContainer::songs;
     shared_ptr_vector<SongDifficulty> SongDetailsContainer::difficulties;
 
-    UnorderedEventCallback<> SongDetailsContainer::dataAvailableOrUpdated;
     UnorderedEventCallback<> SongDetailsContainer::dataAvailableOrUpdatedInternal;
-    UnorderedEventCallback<> SongDetailsContainer::dataLoadFailed;
     UnorderedEventCallback<> SongDetailsContainer::dataLoadFailedInternal;
 
     std::future<void> SongDetailsContainer::Load(bool reload, int acceptableAgeHours) {
@@ -81,7 +79,6 @@ namespace SongDetailsCache {
 
         if (!get_isDataAvailable()) {
             dataLoadFailedInternal.invoke();
-            dataLoadFailed.invoke();
         }
         SongDetails::isLoading = false;
     }
@@ -216,7 +213,6 @@ namespace SongDetailsCache {
         if (get_isDataAvailable()) {
             try {
                 dataAvailableOrUpdatedInternal.invoke();
-                dataAvailableOrUpdated.invoke();
             } catch (const std::exception& _) {}
         }
     }
