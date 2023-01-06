@@ -48,13 +48,6 @@ jobs:
       #    version: '3.x'
       # - name: Run protoc
       #   run: pwsh -Command ./run_protoc.ps1
-      - name: Get Protobuf from vcpkg
-        uses: johnwason/vcpkg-action@v4
-        id: vcpkg
-        with:
-          manifest-dir: ${{ github.workspace }}
-          triplet: arm64-android
-          token: ${{ github.token }}
       - name: VCPKG Cache
         id: cache-vcpkg
         uses: actions/cache@v2
@@ -67,6 +60,13 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Get Protobuf from vcpkg
+        uses: johnwason/vcpkg-action@v4
+        id: vcpkg
+        with:
+          manifest-dir: ${{ github.workspace }}
+          triplet: arm64-android
+          token: ${{ github.token }}
       - name: Create ndkpath.txt
         run: |
           echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
