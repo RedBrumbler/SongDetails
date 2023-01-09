@@ -8,13 +8,13 @@ namespace SongDetailsCache {
     SongDifficulty::SongDifficulty(std::size_t songIndex, const Structs::SongDifficultyProto* proto) noexcept :
         songIndex(songIndex),
         characteristic(static_cast<MapCharacteristic>(proto && proto->has_characteristic() ? proto->characteristic() : 1)),
-        difficulty(static_cast<MapDifficulty>(proto ? proto->difficulty() : 0)),
+        difficulty(static_cast<MapDifficulty>(proto && proto->has_difficulty() ? proto->difficulty() : 4)),
         stars(proto ? proto->starst100() / 100.0f : 0),
         njs(proto ? proto->njst100() / 100.0f : 0),
         bombs(proto ? proto->bombs() : 0),
         notes(proto ? proto->notes() : 0),
         obstacles(proto ? proto->obstacles() : 0),
-        mods(static_cast<MapMods>(proto ? proto->mods() : 0))
+        mods(static_cast<MapMods>(proto && proto->has_mods() ? proto->mods() : 0))
         {}
 
     const Song& SongDifficulty::song() const noexcept {

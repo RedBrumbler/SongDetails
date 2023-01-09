@@ -210,7 +210,11 @@ class SongDifficultyProto final :
   void _internal_set_characteristic(uint32_t value);
   public:
 
-  // uint32 difficulty = 2;
+  // optional uint32 difficulty = 2;
+  bool has_difficulty() const;
+  private:
+  bool _internal_has_difficulty() const;
+  public:
   void clear_difficulty();
   uint32_t difficulty() const;
   void set_difficulty(uint32_t value);
@@ -264,7 +268,11 @@ class SongDifficultyProto final :
   void _internal_set_obstacles(uint32_t value);
   public:
 
-  // uint32 mods = 10;
+  // optional uint32 mods = 10;
+  bool has_mods() const;
+  private:
+  bool _internal_has_mods() const;
+  public:
   void clear_mods();
   uint32_t mods() const;
   void set_mods(uint32_t value);
@@ -849,9 +857,17 @@ inline void SongDifficultyProto::set_characteristic(uint32_t value) {
   // @@protoc_insertion_point(field_set:SongDetailsCache.Structs.SongDifficultyProto.characteristic)
 }
 
-// uint32 difficulty = 2;
+// optional uint32 difficulty = 2;
+inline bool SongDifficultyProto::_internal_has_difficulty() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool SongDifficultyProto::has_difficulty() const {
+  return _internal_has_difficulty();
+}
 inline void SongDifficultyProto::clear_difficulty() {
   _impl_.difficulty_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline uint32_t SongDifficultyProto::_internal_difficulty() const {
   return _impl_.difficulty_;
@@ -861,7 +877,7 @@ inline uint32_t SongDifficultyProto::difficulty() const {
   return _internal_difficulty();
 }
 inline void SongDifficultyProto::_internal_set_difficulty(uint32_t value) {
-  
+  _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.difficulty_ = value;
 }
 inline void SongDifficultyProto::set_difficulty(uint32_t value) {
@@ -969,9 +985,17 @@ inline void SongDifficultyProto::set_obstacles(uint32_t value) {
   // @@protoc_insertion_point(field_set:SongDetailsCache.Structs.SongDifficultyProto.obstacles)
 }
 
-// uint32 mods = 10;
+// optional uint32 mods = 10;
+inline bool SongDifficultyProto::_internal_has_mods() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool SongDifficultyProto::has_mods() const {
+  return _internal_has_mods();
+}
 inline void SongDifficultyProto::clear_mods() {
   _impl_.mods_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline uint32_t SongDifficultyProto::_internal_mods() const {
   return _impl_.mods_;
@@ -981,7 +1005,7 @@ inline uint32_t SongDifficultyProto::mods() const {
   return _internal_mods();
 }
 inline void SongDifficultyProto::_internal_set_mods(uint32_t value) {
-  
+  _impl_._has_bits_[0] |= 0x00000004u;
   _impl_.mods_ = value;
 }
 inline void SongDifficultyProto::set_mods(uint32_t value) {
