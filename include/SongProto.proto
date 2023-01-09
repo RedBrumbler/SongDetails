@@ -3,14 +3,14 @@ syntax="proto3";
 package SongDetailsCache.Structs;
 
 message SongDifficultyProto {
-    uint32 characteristic = 1;
-    uint32 difficulty = 2;
+    optional uint32 characteristic = 1;
+    optional uint32 difficulty = 2;
     uint32 starsT100 = 4;
     uint32 njsT100 = 6;
     uint32 bombs = 7;
     uint32 notes = 8;
     uint32 obstacles = 9;
-    uint32 mods = 10;
+    optional uint32 mods = 10;
 }
 
 message SongProto {
