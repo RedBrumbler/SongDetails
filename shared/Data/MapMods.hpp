@@ -11,25 +11,37 @@ namespace SongDetailsCache {
         ME =                0x2, // alias
         Chroma =            0x4,
         Cinema =            0x8,
+
+        ME_NE = ME | NE,
+        Chroma_NE = Chroma | NE,
+        Chroma_ME = Chroma | ME,
+        Chroma_ME_NE = Chroma | ME | NE,
+        Cinema_NE = Cinema | NE,
+        Cinema_ME = Cinema | ME,
+        Cinema_ME_NE = Cinema | ME | NE,
+        Cinema_Chroma = Cinema | Chroma,
+        Cinema_Chroma_NE = Cinema | Chroma | NE,
+        Cinema_Chroma_ME = Cinema | Chroma | ME,
+        Cinema_Chroma_ME_NE = Cinema | Chroma | ME | NE,
     };
 
-    static MapMods operator |(const MapMods& lhs, const MapMods& rhs) {
+    static constexpr MapMods operator |(const MapMods& lhs, const MapMods& rhs) {
         return static_cast<MapMods>(static_cast<int>(lhs) | static_cast<int>(rhs));
     }
-    static MapMods& operator |=(MapMods& lhs, const MapMods& rhs) {
+    static constexpr MapMods& operator |=(MapMods& lhs, const MapMods& rhs) {
         lhs = lhs | rhs;
         return lhs;
     }
 
-    static MapMods operator &(const MapMods& lhs, const MapMods& rhs) {
+    static constexpr MapMods operator &(const MapMods& lhs, const MapMods& rhs) {
         return static_cast<MapMods>(static_cast<int>(lhs) & static_cast<int>(rhs));
     }
-    static MapMods& operator &=(MapMods& lhs, const MapMods& rhs) {
+    static constexpr  MapMods& operator &=(MapMods& lhs, const MapMods& rhs) {
         lhs = lhs & rhs;
         return lhs;
     }
 
-    static bool hasFlags(const MapMods& lhs, const MapMods& rhs) {
+    static constexpr  bool hasFlags(const MapMods& lhs, const MapMods& rhs) {
         return (lhs & rhs) == rhs;
     }
 
@@ -51,15 +63,40 @@ template <> struct fmt::formatter<::SongDetailsCache::MapMods> : formatter<strin
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::MapMods c, FormatContext& ctx) {
-        auto vec = ::SongDetailsCache::toVectorOfStrings(c);
-        if (vec.empty()) return "None";
-        std::stringstream result;
-        for (bool first = true; const auto& v : vec) {
-            if (first) first = false;
-            else result << ", ";
-            result << v;
+        switch (c) {
+            case SongDetailsCache::MapMods::None:
+                return formatter<string_view>::format("None", ctx);;
+            case SongDetailsCache::MapMods::NE:
+                return formatter<string_view>::format("Noodle Extensions", ctx);
+            case SongDetailsCache::MapMods::ME:
+                return formatter<string_view>::format("Mapping Extensions", ctx);
+            case SongDetailsCache::MapMods::ME_NE:
+                return formatter<string_view>::format("Noodle Extensions, Mapping Extensions", ctx);
+            case SongDetailsCache::MapMods::Chroma:
+                return formatter<string_view>::format("Chroma", ctx);;
+            case SongDetailsCache::MapMods::Chroma_NE:
+                return formatter<string_view>::format("Noodle Extensions, Chroma", ctx);
+            case SongDetailsCache::MapMods::Chroma_ME:
+                return formatter<string_view>::format("Mapping Extensions, Chroma", ctx);
+            case SongDetailsCache::MapMods::Chroma_ME_NE:
+                return formatter<string_view>::format("Noodle Extensions, Mapping Extensions, Chroma", ctx);
+            case SongDetailsCache::MapMods::Cinema:
+                return formatter<string_view>::format("Cinema", ctx);;
+            case SongDetailsCache::MapMods::Cinema_NE:
+                return formatter<string_view>::format("Noodle Extensions, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_ME:
+                return formatter<string_view>::format("Mapping Extensions, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_ME_NE:
+                return formatter<string_view>::format("Noodle Extensions, Mapping Extensions, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_Chroma:
+                return formatter<string_view>::format("Chroma, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_Chroma_NE:
+                return formatter<string_view>::format("Noodle Extensions, Chroma, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_Chroma_ME:
+                return formatter<string_view>::format("Mapping Extensions, Chroma, Cinema", ctx);
+            case SongDetailsCache::MapMods::Cinema_Chroma_ME_NE:
+                return formatter<string_view>::format("Noodle Extensions, Mapping Extensions, Chroma, Cinema", ctx);
         }
-        return result.str();
     }
 };
 #endif
