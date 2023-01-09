@@ -33,8 +33,11 @@ namespace SongDetailsCache {
             /// @return amount of songs found that satisfy the condition
             std::size_t CountSongs(const DifficultyFilterFunction& check) const;
 
-            UnorderedEventCallback<> dataAvailableOrUpdated;
-            UnorderedEventCallback<> dataLoadFailed;
+            /// @brief Invoked when data is available or was updated
+            static UnorderedEventCallback<> dataAvailableOrUpdated;
+
+            /// @brief Invoked when data failed to load
+            static UnorderedEventCallback<> dataLoadFailed;
         private:
             SongDetails() noexcept;
             static void DataAvailableOrUpdated();

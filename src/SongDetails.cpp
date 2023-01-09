@@ -5,6 +5,9 @@
 
 namespace SongDetailsCache {
     SongDetails SongDetails::instance{};
+    UnorderedEventCallback<> SongDetails::dataAvailableOrUpdated;
+    UnorderedEventCallback<> SongDetails::dataLoadFailed;
+
     bool ::SongDetailsCache::SongDetails::isLoading = false;
 
     SongDetails::SongDetails() noexcept {
