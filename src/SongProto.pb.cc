@@ -24,15 +24,16 @@ namespace SongDetailsCache {
 namespace Structs {
 PROTOBUF_CONSTEXPR SongDifficultyProto::SongDifficultyProto(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.characteristic_)*/0u
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.characteristic_)*/0u
   , /*decltype(_impl_.difficulty_)*/0u
   , /*decltype(_impl_.starst100_)*/0u
   , /*decltype(_impl_.njst100_)*/0u
   , /*decltype(_impl_.bombs_)*/0u
   , /*decltype(_impl_.notes_)*/0u
   , /*decltype(_impl_.obstacles_)*/0u
-  , /*decltype(_impl_.mods_)*/0u
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.mods_)*/0u} {}
 struct SongDifficultyProtoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SongDifficultyProtoDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -91,7 +92,7 @@ static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_SongP
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_SongProto_2eproto = nullptr;
 
 const uint32_t TableStruct_SongProto_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongDifficultyProto, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongDifficultyProto, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -105,6 +106,14 @@ const uint32_t TableStruct_SongProto_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongDifficultyProto, _impl_.notes_),
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongDifficultyProto, _impl_.obstacles_),
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongDifficultyProto, _impl_.mods_),
+  0,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
+  ~0u,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongProto, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -137,9 +146,9 @@ const uint32_t TableStruct_SongProto_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongProtoContainer, _impl_.songs_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::SongDetailsCache::Structs::SongDifficultyProto)},
-  { 14, -1, -1, sizeof(::SongDetailsCache::Structs::SongProto)},
-  { 35, -1, -1, sizeof(::SongDetailsCache::Structs::SongProtoContainer)},
+  { 0, 14, -1, sizeof(::SongDetailsCache::Structs::SongDifficultyProto)},
+  { 22, -1, -1, sizeof(::SongDetailsCache::Structs::SongProto)},
+  { 43, -1, -1, sizeof(::SongDetailsCache::Structs::SongProtoContainer)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -150,28 +159,28 @@ static const ::_pb::Message* const file_default_instances[] = {
 
 const char descriptor_table_protodef_SongProto_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017SongProto.proto\022\030SongDetailsCache.Stru"
-  "cts\"\244\001\n\023SongDifficultyProto\022\026\n\016character"
-  "istic\030\001 \001(\r\022\022\n\ndifficulty\030\002 \001(\r\022\021\n\tstars"
-  "T100\030\004 \001(\r\022\017\n\007njsT100\030\006 \001(\r\022\r\n\005bombs\030\007 \001"
-  "(\r\022\r\n\005notes\030\010 \001(\r\022\021\n\tobstacles\030\t \001(\r\022\014\n\004"
-  "mods\030\n \001(\r\"\367\002\n\tSongProto\022\013\n\003bpm\030\001 \001(\002\022\025\n"
-  "\rdownloadCount\030\002 \001(\r\022\017\n\007upvotes\030\003 \001(\r\022\021\n"
-  "\tdownvotes\030\004 \001(\r\022\026\n\016uploadTimeUnix\030\005 \001(\r"
-  "\022\030\n\020rankedChangeUnix\030\016 \001(\r\022\r\n\005mapId\030\006 \001("
-  "\r\022\033\n\023songDurationSeconds\030\010 \001(\r\022\021\n\thashBy"
-  "tes\030\t \001(\014\022\020\n\010songName\030\n \001(\t\022\026\n\016songAutho"
-  "rName\030\013 \001(\t\022\027\n\017levelAuthorName\030\014 \001(\t\022\023\n\013"
-  "rankedState\030\017 \001(\r\022C\n\014difficulties\030\r \003(\0132"
-  "-.SongDetailsCache.Structs.SongDifficult"
-  "yProto\022\024\n\014uploaderName\030\020 \001(\t\"|\n\022SongProt"
-  "oContainer\022\025\n\rformatVersion\030\001 \001(\r\022\033\n\023scr"
-  "apeEndedTimeUnix\030\002 \001(\004\0222\n\005songs\030\004 \003(\0132#."
-  "SongDetailsCache.Structs.SongProtob\006prot"
-  "o3"
+  "cts\"\274\001\n\023SongDifficultyProto\022\033\n\016character"
+  "istic\030\001 \001(\rH\000\210\001\001\022\022\n\ndifficulty\030\002 \001(\r\022\021\n\t"
+  "starsT100\030\004 \001(\r\022\017\n\007njsT100\030\006 \001(\r\022\r\n\005bomb"
+  "s\030\007 \001(\r\022\r\n\005notes\030\010 \001(\r\022\021\n\tobstacles\030\t \001("
+  "\r\022\014\n\004mods\030\n \001(\rB\021\n\017_characteristic\"\367\002\n\tS"
+  "ongProto\022\013\n\003bpm\030\001 \001(\002\022\025\n\rdownloadCount\030\002"
+  " \001(\r\022\017\n\007upvotes\030\003 \001(\r\022\021\n\tdownvotes\030\004 \001(\r"
+  "\022\026\n\016uploadTimeUnix\030\005 \001(\r\022\030\n\020rankedChange"
+  "Unix\030\016 \001(\r\022\r\n\005mapId\030\006 \001(\r\022\033\n\023songDuratio"
+  "nSeconds\030\010 \001(\r\022\021\n\thashBytes\030\t \001(\014\022\020\n\010son"
+  "gName\030\n \001(\t\022\026\n\016songAuthorName\030\013 \001(\t\022\027\n\017l"
+  "evelAuthorName\030\014 \001(\t\022\023\n\013rankedState\030\017 \001("
+  "\r\022C\n\014difficulties\030\r \003(\0132-.SongDetailsCac"
+  "he.Structs.SongDifficultyProto\022\024\n\014upload"
+  "erName\030\020 \001(\t\"|\n\022SongProtoContainer\022\025\n\rfo"
+  "rmatVersion\030\001 \001(\r\022\033\n\023scrapeEndedTimeUnix"
+  "\030\002 \001(\004\0222\n\005songs\030\004 \003(\0132#.SongDetailsCache"
+  ".Structs.SongProtob\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_SongProto_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_SongProto_2eproto = {
-    false, false, 722, descriptor_table_protodef_SongProto_2eproto,
+    false, false, 746, descriptor_table_protodef_SongProto_2eproto,
     "SongProto.proto",
     &descriptor_table_SongProto_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_SongProto_2eproto::offsets,
@@ -191,6 +200,10 @@ namespace Structs {
 
 class SongDifficultyProto::_Internal {
  public:
+  using HasBits = decltype(std::declval<SongDifficultyProto>()._impl_._has_bits_);
+  static void set_has_characteristic(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 SongDifficultyProto::SongDifficultyProto(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -203,15 +216,16 @@ SongDifficultyProto::SongDifficultyProto(const SongDifficultyProto& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   SongDifficultyProto* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.characteristic_){}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.characteristic_){}
     , decltype(_impl_.difficulty_){}
     , decltype(_impl_.starst100_){}
     , decltype(_impl_.njst100_){}
     , decltype(_impl_.bombs_){}
     , decltype(_impl_.notes_){}
     , decltype(_impl_.obstacles_){}
-    , decltype(_impl_.mods_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.mods_){}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.characteristic_, &from._impl_.characteristic_,
@@ -225,7 +239,9 @@ inline void SongDifficultyProto::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.characteristic_){0u}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.characteristic_){0u}
     , decltype(_impl_.difficulty_){0u}
     , decltype(_impl_.starst100_){0u}
     , decltype(_impl_.njst100_){0u}
@@ -233,7 +249,6 @@ inline void SongDifficultyProto::SharedCtor(
     , decltype(_impl_.notes_){0u}
     , decltype(_impl_.obstacles_){0u}
     , decltype(_impl_.mods_){0u}
-    , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
@@ -260,21 +275,25 @@ void SongDifficultyProto::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ::memset(&_impl_.characteristic_, 0, static_cast<size_t>(
+  _impl_.characteristic_ = 0u;
+  ::memset(&_impl_.difficulty_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.mods_) -
-      reinterpret_cast<char*>(&_impl_.characteristic_)) + sizeof(_impl_.mods_));
+      reinterpret_cast<char*>(&_impl_.difficulty_)) + sizeof(_impl_.mods_));
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* SongDifficultyProto::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // uint32 characteristic = 1;
+      // optional uint32 characteristic = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _Internal::set_has_characteristic(&has_bits);
           _impl_.characteristic_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -352,6 +371,7 @@ const char* SongDifficultyProto::_InternalParse(const char* ptr, ::_pbi::ParseCo
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -365,8 +385,8 @@ uint8_t* SongDifficultyProto::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // uint32 characteristic = 1;
-  if (this->_internal_characteristic() != 0) {
+  // optional uint32 characteristic = 1;
+  if (_internal_has_characteristic()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(1, this->_internal_characteristic(), target);
   }
@@ -429,8 +449,9 @@ size_t SongDifficultyProto::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // uint32 characteristic = 1;
-  if (this->_internal_characteristic() != 0) {
+  // optional uint32 characteristic = 1;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_characteristic());
   }
 
@@ -487,7 +508,7 @@ void SongDifficultyProto::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_characteristic() != 0) {
+  if (from._internal_has_characteristic()) {
     _this->_internal_set_characteristic(from._internal_characteristic());
   }
   if (from._internal_difficulty() != 0) {
@@ -528,6 +549,7 @@ bool SongDifficultyProto::IsInitialized() const {
 void SongDifficultyProto::InternalSwap(SongDifficultyProto* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(SongDifficultyProto, _impl_.mods_)
       + sizeof(SongDifficultyProto::_impl_.mods_)
