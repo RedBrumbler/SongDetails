@@ -15,13 +15,13 @@ namespace SongDetailsCache {
     std::filesystem::path DataGetter::cachePathEtag(std::string_view source) {
         return basePath / fmt::format("SongDetailsCache.proto.{}.etag", source);
     }
-    // just copied from the C# binary
+    // just copied from the C# binary (order from bottom to top)
     const std::unordered_map<std::string, std::string> DataGetter::dataSources {
-        { "Direct", "https://raw.githubusercontent.com/andruzzzhka/BeatSaberScrappedData/master/songDetails2.gz" },
+		// Caches stuff for 5 hours, bandwidth 512KB/s, but at least its a way to get the data at all for people behind China Firewall
+		{ "WGzeyu", "https://beatmods.wgzeyu.com/github/BeatSaberScrappedData/songDetails2.gz" },
 		// Caches stuff for 12 hours as backup
 		{ "JSDelivr", "https://cdn.jsdelivr.net/gh/andruzzzhka/BeatSaberScrappedData/songDetails2.gz" },
-		// Caches stuff for 5 hours, bandwidth 512KB/s, but at least its a way to get the data at all for people behind China Firewall
-		{ "WGzeyu", "https://beatmods.wgzeyu.com/github/BeatSaberScrappedData/songDetails2.gz" }
+        { "Direct", "https://raw.githubusercontent.com/andruzzzhka/BeatSaberScrappedData/master/songDetails2.gz" },
     };
 
     std::optional<std::ifstream> DataGetter::ReadCachedDatabase() {
@@ -77,7 +77,7 @@ namespace SongDetailsCache {
         }
         if (resp.httpCode != 200) {
             ERROR("HTTP response code was {}", resp.httpCode);
-            return std::nullopt;
+            throw std::runtime_error("Failed to dl database");
         }
 
         DownloadedDatabase downloadedDatabase;
@@ -89,8 +89,8 @@ namespace SongDetailsCache {
         std::string line;
         while (std::getline(buf, line)) {
             if (line.starts_with("ETag: ")) {
-                auto tagStart = line.find_first_of('"') + 1;
-                auto tagLength = line.find_last_of('"') - tagStart;
+                auto tagStart = line.find_first_of('"');
+                auto tagLength = (line.find_last_of('"') + 1) - tagStart;
                 downloadedDatabase.etag = line.substr(tagStart, tagLength);
                 break;
             }
