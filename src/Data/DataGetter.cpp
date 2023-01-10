@@ -78,7 +78,7 @@ namespace SongDetailsCache {
         }
         if (resp.httpCode != 200) {
             ERROR("HTTP response code was {}", resp.httpCode);
-            return std::nullopt;
+            throw std::runtime_error("Failed to dl database");
         }
 
         DownloadedDatabase downloadedDatabase;
