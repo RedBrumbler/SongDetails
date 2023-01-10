@@ -60,9 +60,10 @@ namespace SongDetailsCache {
         }
 
         for (const auto& [src, _] : DataGetter::dataSources) {
+            DEBUG("Trying source {}", src);
             auto db = DataGetter::UpdateAndReadDatabase(src).get();
             if (!db.has_value()) {
-                break;
+                continue;
             }
 
             StopWatch sw; sw.Start();
@@ -72,9 +73,11 @@ namespace SongDetailsCache {
             DataGetter::WriteCachedDatabase(*db).wait();
             DEBUG("Wrote data in {}ms", sw.EllapsedMilliseconds());
 
-            if (!get_isDataAvailable()) {
-                ERROR("Data load failed for unknown reason");
+            if (get_isDataAvailable()) {
+                break;    
             }
+
+            ERROR("Data load failed for unknown reason");
         }
 
         if (!get_isDataAvailable()) {
