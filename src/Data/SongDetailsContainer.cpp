@@ -60,7 +60,6 @@ namespace SongDetailsCache {
         }
 
         for (const auto& [src, _] : DataGetter::dataSources) {
-            DEBUG("Trying source {}", src);
             try {
                 auto db = DataGetter::UpdateAndReadDatabase(src).get();
                 if (!db.has_value()) {
@@ -80,7 +79,7 @@ namespace SongDetailsCache {
 
                 ERROR("Data load failed for unknown reason");
             } catch (...) {
-                ERROR("Failed to download the source");
+                ERROR("Failed to download from source {}", src);
             }
         }
 
