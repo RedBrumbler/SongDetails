@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <filesystem>
 #include <fstream>
 #include <future>
@@ -15,7 +16,7 @@ namespace SongDetailsCache {
                 std::shared_ptr<std::vector<uint8_t>> data;
             };
 
-            static const std::unordered_map<std::string, std::string> dataSources;
+            static const std::map<std::string, std::string> dataSources;
             static std::filesystem::path cachePath();
             static std::filesystem::path cachePathEtag(std::string_view source);
 

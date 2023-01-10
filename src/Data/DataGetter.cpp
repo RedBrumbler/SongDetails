@@ -3,6 +3,7 @@
 #include "logging.hpp"
 
 #include <vector>
+#include <map>
 #include <fstream>
 #include <sstream>
 #include <fmt/core.h>
@@ -16,7 +17,7 @@ namespace SongDetailsCache {
         return basePath / fmt::format("SongDetailsCache.proto.{}.etag", source);
     }
     // just copied from the C# binary
-    const std::unordered_map<std::string, std::string> DataGetter::dataSources {
+    const std::map<std::string, std::string> DataGetter::dataSources {
         { "Direct", "https://raw.githubusercontent.com/andruzzzhka/BeatSaberScrappedData/master/songDetails2.gz" },
 		// Caches stuff for 12 hours as backup
 		{ "JSDelivr", "https://cdn.jsdelivr.net/gh/andruzzzhka/BeatSaberScrappedData/songDetails2.gz" },
@@ -89,8 +90,8 @@ namespace SongDetailsCache {
         std::string line;
         while (std::getline(buf, line)) {
             if (line.starts_with("ETag: ")) {
-                auto tagStart = line.find_first_of('"') + 1;
-                auto tagLength = line.find_last_of('"') - tagStart;
+                auto tagStart = line.find_first_of('"');
+                auto tagLength = (line.find_last_of('"') + 1) - tagStart;
                 downloadedDatabase.etag = line.substr(tagStart, tagLength);
                 break;
             }
