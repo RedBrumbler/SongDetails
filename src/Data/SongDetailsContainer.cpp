@@ -60,20 +60,26 @@ namespace SongDetailsCache {
         }
 
         for (const auto& [src, _] : DataGetter::dataSources) {
-            auto db = DataGetter::UpdateAndReadDatabase(src).get();
-            if (!db.has_value()) {
-                break;
-            }
+            try {
+                auto db = DataGetter::UpdateAndReadDatabase(src).get();
+                if (!db.has_value()) {
+                    break;
+                }
 
-            StopWatch sw; sw.Start();
-            Process(*db->data);
-            DEBUG("Processed new data in {}ms", sw.EllapsedMilliseconds());
-            sw.Restart();
-            DataGetter::WriteCachedDatabase(*db).wait();
-            DEBUG("Wrote data in {}ms", sw.EllapsedMilliseconds());
+                StopWatch sw; sw.Start();
+                Process(*db->data);
+                DEBUG("Processed new data in {}ms", sw.EllapsedMilliseconds());
+                sw.Restart();
+                DataGetter::WriteCachedDatabase(*db).wait();
+                DEBUG("Wrote data in {}ms", sw.EllapsedMilliseconds());
 
-            if (!get_isDataAvailable()) {
+                if (get_isDataAvailable()) {
+                    break;
+                }
+
                 ERROR("Data load failed for unknown reason");
+            } catch (...) {
+                ERROR("Failed to download from source {}", src);
             }
         }
 
