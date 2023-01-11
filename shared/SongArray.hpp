@@ -13,6 +13,7 @@ namespace SongDetailsCache {
 			[[nodiscard]] const Song& operator [](std::size_t index) const noexcept;
 			/// @brief essentially a bounds checked operator[]
             [[nodiscard]] const Song& at(std::size_t index) const noexcept;
+			[[nodiscard]] bool get_isDataAvailable() const noexcept;
 
 			/// @brief Gets a song using its Map Hash
 			/// @param hash hexadecimal Map Hash, captialization does not matter

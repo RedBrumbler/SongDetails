@@ -30,6 +30,8 @@ namespace SongDetailsCache {
         return operator[](index);
     }
 
+    bool SongArray::get_isDataAvailable() const noexcept { return SongDetailsContainer::get_isDataAvailable(); }
+
 	static constexpr const float hashLookupDivisorInverse = 1.0f / (float)std::numeric_limits<uint32_t>::max();
 
     bool SongArray::FindByHash(const std::string_view& hash, const Song*& out) {
