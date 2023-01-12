@@ -40,10 +40,22 @@ namespace SongDetailsCache {
 
     float Song::minNJS() const noexcept { return min([](const auto& diff){ return diff.njs; }); }
     float Song::maxNJS() const noexcept { return max([](const auto& diff){ return diff.njs; }); }
-    float Song::minStar() const noexcept { return min([](const auto& diff){ return diff.stars; }); }
-    float Song::maxStar() const noexcept { return max([](const auto& diff){ return diff.stars; }); }
-    float Song::minPP() const noexcept { return min([](const auto& diff){ return diff.approximatePpValue(); }); }
-    float Song::maxPP() const noexcept { return max([](const auto& diff){ return diff.approximatePpValue(); }); }
+    float Song::minStar() const noexcept { 
+        if (rankedStatus != RankedStatus::Ranked) return 0.0f;
+        return min([](const auto& diff){ return diff.ranked() ? diff.stars : std::numeric_limits<float>::max(); }); 
+    }
+    float Song::maxStar() const noexcept { 
+        if (rankedStatus != RankedStatus::Ranked) return 0.0f;
+        return max([](const auto& diff){ return diff.stars; });
+    }
+    float Song::minPP() const noexcept { 
+        if (rankedStatus != RankedStatus::Ranked) return 0.0f;
+        return min([](const auto& diff){ return diff.ranked() ? diff.approximatePpValue() : std::numeric_limits<float>::max(); }); 
+    }
+    float Song::maxPP() const noexcept {
+        if (rankedStatus != RankedStatus::Ranked) return 0.0f;
+        return max([](const auto& diff){ return diff.approximatePpValue(); }); 
+    }
 
     std::chrono::sys_time<std::chrono::seconds> Song::uploadTime() const noexcept {
         return std::chrono::sys_time<std::chrono::seconds>(std::chrono::seconds(uploadTimeUnix));
