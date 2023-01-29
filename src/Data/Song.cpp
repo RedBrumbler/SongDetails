@@ -125,6 +125,37 @@ namespace SongDetailsCache {
         return false;
     }
 
+    /// @brief Helper function to get a difficulty from this song
+    /// @param diff the difficulty to search for
+    /// @param characteristic the characteristic to search for
+    /// @return The found SongDifficulty, otherwise SongDifficulty::none
+    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, MapCharacteristic characteristic) const noexcept {
+        for (std::size_t i = 0; i < diffCount; i++) {
+            const auto& x = SongDetailsContainer::difficulties->operator[](i + diffOffset);
+            if (x.difficulty == diff && x.characteristic == characteristic) {
+                return x;
+            }
+        }
+        return SongDifficulty::none;
+    };
+
+    /// @brief Helper function to get a difficulty from this song
+    /// @param diff the difficulty to search for
+    /// @param characteristic the characteristic to search for as a string
+    /// @return The found SongDifficulty, otherwise SongDifficulty::none
+    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, const std::string_view& characteristic) const noexcept {
+        if (characteristic == "Standard")
+            return GetDifficulty(diff);
+        if(characteristic == "360Degree" || characteristic == "Degree360" || characteristic == "ThreeSixtyDegree")
+            return GetDifficulty(diff, MapCharacteristic::ThreeSixtyDegree);
+        if(characteristic == "90Degree" || characteristic == "Degree90" || characteristic == "NinetyDegree")
+            return GetDifficulty(diff, MapCharacteristic::NinetyDegree);
+        MapCharacteristic c;
+        if (parse(characteristic, c))
+            return GetDifficulty(diff, c);
+        return SongDifficulty::none;
+    };
+
     Song::difficulty_const_iterator Song::begin() const noexcept {
         return std::next(SongDetailsContainer::difficulties->begin(), diffOffset);
     }
