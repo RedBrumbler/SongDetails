@@ -125,10 +125,6 @@ namespace SongDetailsCache {
         return false;
     }
 
-    /// @brief Helper function to get a difficulty from this song
-    /// @param diff the difficulty to search for
-    /// @param characteristic the characteristic to search for
-    /// @return The found SongDifficulty, otherwise SongDifficulty::none
     const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, MapCharacteristic characteristic) const noexcept {
         for (std::size_t i = 0; i < diffCount; i++) {
             const auto& x = SongDetailsContainer::difficulties->operator[](i + diffOffset);
@@ -139,10 +135,6 @@ namespace SongDetailsCache {
         return SongDifficulty::none;
     };
 
-    /// @brief Helper function to get a difficulty from this song
-    /// @param diff the difficulty to search for
-    /// @param characteristic the characteristic to search for as a string
-    /// @return The found SongDifficulty, otherwise SongDifficulty::none
     const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, const std::string_view& characteristic) const noexcept {
         if (characteristic == "Standard")
             return GetDifficulty(diff);
