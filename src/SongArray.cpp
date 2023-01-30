@@ -37,7 +37,7 @@ namespace SongDetailsCache {
     bool SongArray::FindByHash(std::string_view hash, const Song*& out) const {
         if (hash.size() != 40) {
             ERROR("Hash size was not 40, this is an invalid hash! hash: {}", hash);
-            out = &Song::none;
+            out = nullptr;
             return false;
         }
 
@@ -76,12 +76,12 @@ namespace SongDetailsCache {
         }
 
         INFO("Song hash '{}' was not found at all in the dataset", hash);
-        out = &Song::none;
+        out = nullptr;
         return false;
     }
 
     const Song& SongArray::FindByHash(std::string_view hash) const {
-        const Song* res;
+        const Song* res = nullptr;
         if (FindByHash(hash, res)) return *res;
         else return Song::none;
     }
@@ -99,7 +99,7 @@ namespace SongDetailsCache {
     bool SongArray::FindByMapId(uint32_t key, const Song*& out) const {
         auto itr = std::find(SongDetailsContainer::keys->begin(), SongDetailsContainer::keys->end(), key);
         if (itr == SongDetailsContainer::keys->end()) {
-            out = &Song::none;
+            out = nullptr;
             return false;
         }
         out = &SongDetailsContainer::songs->operator[](itr - SongDetailsContainer::keys->begin());
