@@ -16,7 +16,7 @@ namespace SongDetailsCache {
 
     /// @brief parse a mapcharacteristic
     /// @return true if parse was successful
-    bool parse(const std::string_view& str, MapCharacteristic& out);
+    bool parse(std::string_view str, MapCharacteristic& out);
 }
 
 // if we have fmt, add formatting methods

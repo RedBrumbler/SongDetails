@@ -34,7 +34,7 @@ namespace SongDetailsCache {
 
 	static constexpr const float hashLookupDivisorInverse = 1.0f / (float)std::numeric_limits<uint32_t>::max();
 
-    bool SongArray::FindByHash(const std::string_view& hash, const Song*& out) {
+    bool SongArray::FindByHash(std::string_view hash, const Song*& out) const {
         if (hash.size() != 40) {
             ERROR("Hash size was not 40, this is an invalid hash! hash: {}", hash);
             out = &Song::none;
@@ -61,7 +61,7 @@ namespace SongDetailsCache {
 
         }
 
-		for(uint32_t i = searchNeedle; i-- > 0;) {
+		for(uint32_t i = searchNeedle; i-- > 0;) const {
 			uint32_t songIndex = SongDetailsContainer::hashBytesLUT->operator[](i);
             const auto& hash = SongDetailsContainer::hashBytes->operator[](songIndex);
 
@@ -80,23 +80,23 @@ namespace SongDetailsCache {
         return false;
     }
 
-    const Song& SongArray::FindByHash(const std::string_view& hash) {
+    const Song& SongArray::FindByHash(std::string_view hash) const {
         const Song* res;
         if (FindByHash(hash, res)) return *res;
         else return Song::none;
     }
 
-    bool SongArray::FindByMapId(const std::string& key, const Song*& out) {
+    bool SongArray::FindByMapId(const std::string& key, const Song*& out) const {
         return FindByMapId(std::stoul(key, nullptr, 16), out);
     }
 
-    const Song& SongArray::FindByMapId(const std::string& key) {
+    const Song& SongArray::FindByMapId(const std::string& key) const {
         const Song* res;
         if (FindByMapId(key, res)) return *res;
         return Song::none;
     }
 
-    bool SongArray::FindByMapId(uint32_t key, const Song*& out) {
+    bool SongArray::FindByMapId(uint32_t key, const Song*& out) const {
         auto itr = std::find(SongDetailsContainer::keys->begin(), SongDetailsContainer::keys->end(), key);
         if (itr == SongDetailsContainer::keys->end()) {
             out = &Song::none;
@@ -106,7 +106,7 @@ namespace SongDetailsCache {
         return true;
     }
 
-    const Song& SongArray::FindByMapId(uint32_t key) {
+    const Song& SongArray::FindByMapId(uint32_t key) const {
         const Song* res;
         if (FindByMapId(key, res)) return *res;
         return Song::none;

@@ -14,8 +14,8 @@ namespace SongDetailsCache {
             static std::string SongBytesToHash(std::size_t index);
 
             /// @throw throws if the passed hex string contains non-hex letters
-            static std::vector<uint8_t> ToBytes(const std::string_view& hex);
-            static SongHash ToSongHash(const std::string_view& hex);
+            static std::vector<uint8_t> ToBytes(std::string_view hex);
+            static SongHash ToSongHash(std::string_view hex);
     };
 
     class WebUtil {
@@ -25,8 +25,8 @@ namespace SongDetailsCache {
                 std::string headers;
                 std::string content;
             };
-            static std::future<WebResponse> GetAsync(const std::string_view& url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
+            static std::future<WebResponse> GetAsync(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
         private:
-            static WebResponse GetAsync_internal(const std::string_view& url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
+            static WebResponse GetAsync_internal(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
     };
 }

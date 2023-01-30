@@ -103,7 +103,7 @@ namespace SongDetailsCache {
             /// @param diff the difficulty to search for
             /// @param characteristic the characteristic to search for as a string
             /// @return whether it was found
-            bool GetDifficulty(const SongDifficulty*& outDiff, MapDifficulty diff, const std::string_view& characteristic) const noexcept;
+            bool GetDifficulty(const SongDifficulty*& outDiff, MapDifficulty diff, std::string_view characteristic) const noexcept;
             /// @brief Helper function to get a difficulty from this song
             /// @param diff the difficulty to search for
             /// @param characteristic the characteristic to search for
@@ -113,7 +113,7 @@ namespace SongDetailsCache {
             /// @param diff the difficulty to search for
             /// @param characteristic the characteristic to search for as a string
             /// @return The found SongDifficulty, otherwise SongDifficulty::none
-            const SongDifficulty& GetDifficulty(MapDifficulty diff, const std::string_view& characteristic) const noexcept;
+            const SongDifficulty& GetDifficulty(MapDifficulty diff, std::string_view characteristic) const noexcept;
 
             // allow iterating all difficulties of this song in a regular foreach loop
             using difficulty_const_iterator = std::vector<SongDifficulty>::const_iterator;

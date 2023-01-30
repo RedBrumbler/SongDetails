@@ -10,7 +10,7 @@ namespace SongDetailsCache {
     const auto LightShowHash = std::hash<std::string>{}("LightShow");
     const auto LawlessHash = std::hash<std::string>{}("Lawless");
 
-    bool parse(const std::string_view& str, MapCharacteristic& out) {
+    bool parse(std::string_view str, MapCharacteristic& out) {
         auto h = std::hash<std::string_view>{}(str);
         if (h == CustomHash) { out = MapCharacteristic::Custom; return true; }
         if (h == StandardHash) { out = MapCharacteristic::Standard; return true; }

@@ -19,31 +19,31 @@ namespace SongDetailsCache {
 			/// @param hash hexadecimal Map Hash, captialization does not matter
 			/// @param song the song - Will be a random song if not found, make sure to check the return value of the method!
 			/// @return True if the song was found, false otherwise
-			bool FindByHash(const std::string_view& hash, const Song*& out);
+			bool FindByHash(std::string_view hash, const Song*& out) const;
 			/// @brief Gets a song using its Map Hash
 			/// @param hash hexadecimal Map Hash, captialization does not matter
 			/// @return Found song, otherwise returns Song::none
-			const Song& FindByHash(const std::string_view& hash);
+			const Song& FindByHash(std::string_view hash) const;
 
 			/// @brief Gets a song using its hexadecimal Map ID (Some times called Map Key)
 			/// @param key hexadecimal Map ID, captialization does not matter
 			/// @param song the song - Will be a random song if not found, make sure to check the return value of the method!
 			/// @return True if the song was found, false otherwise
-			bool FindByMapId(const std::string& key, const Song*& out);
+			bool FindByMapId(const std::string& key, const Song*& out) const;
 			/// @brief Gets a song using its hexadecimal Map ID (Some times called Map Key)
 			/// @param key hexadecimal Map ID, captialization does not matter
 			/// @return Found song, otherwise returns Song::none
-			const Song& FindByMapId(const std::string& key);
+			const Song& FindByMapId(const std::string& key) const;
 
 			/// @brief Gets a song using its Map ID
 			/// @param key Map ID
 			/// @param song the song - Will be a random song if not found, make sure to check the return value of the method!
 			/// @return True if the song was found, false otherwise
-			bool FindByMapId(uint32_t key, const Song*& out);
+			bool FindByMapId(uint32_t key, const Song*& out) const;
 			/// @brief Gets a song using its Map ID
 			/// @param key Map ID
 			/// @return Found song, otherwise returns Song::none
-			const Song& FindByMapId(uint32_t key);
+			const Song& FindByMapId(uint32_t key) const;
 
 			/// @brief deleted because use references
 			SongArray(SongArray&&) = delete;

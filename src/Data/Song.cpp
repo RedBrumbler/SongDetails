@@ -112,7 +112,7 @@ namespace SongDetailsCache {
         return false;
     }
 
-    bool Song::GetDifficulty(const SongDifficulty*& outDiff, MapDifficulty diff, const std::string_view& characteristic) const noexcept {
+    bool Song::GetDifficulty(const SongDifficulty*& outDiff, MapDifficulty diff, std::string_view characteristic) const noexcept {
         if (characteristic == "Standard")
             return GetDifficulty(outDiff, diff);
         if(characteristic == "360Degree" || characteristic == "Degree360" || characteristic == "ThreeSixtyDegree")

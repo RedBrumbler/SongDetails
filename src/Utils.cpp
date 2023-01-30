@@ -50,7 +50,7 @@ namespace SongDetailsCache {
         {'8', 0x8}, {'9', 0x9}
     };
 
-    SongHash HexUtil::ToSongHash(const std::string_view& hex) {
+    SongHash HexUtil::ToSongHash(std::string_view hex) {
         try {
             return *(SongHash*)ToBytes(hex).data();
         } catch (const std::exception& e) {
@@ -58,7 +58,7 @@ namespace SongDetailsCache {
         }
     }
 
-    std::vector<uint8_t> HexUtil::ToBytes(const std::string_view& hex) {
+    std::vector<uint8_t> HexUtil::ToBytes(std::string_view hex) {
         std::vector<uint8_t> result{};
         result.resize(hex.size() / 2);
         char left, right;
@@ -75,7 +75,7 @@ namespace SongDetailsCache {
     }
 
 
-    std::string query_encode(const std::string_view& s) {
+    std::string query_encode(std::string_view s) {
 		std::stringstream ret;
 
 		#define IS_BETWEEN(ch, low, high) (ch >= low && ch <= high)
@@ -148,11 +148,11 @@ namespace SongDetailsCache {
 		return newLength;
 	}
 
-    std::future<WebUtil::WebResponse> WebUtil::GetAsync(const std::string_view& url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
+    std::future<WebUtil::WebResponse> WebUtil::GetAsync(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
         return std::async(std::launch::async, std::bind(&WebUtil::GetAsync_internal, url, timeout, headers));
     }
 
-    WebUtil::WebResponse WebUtil::GetAsync_internal(const std::string_view& url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
+    WebUtil::WebResponse WebUtil::GetAsync_internal(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
         WebResponse response;
 
         // Init curl

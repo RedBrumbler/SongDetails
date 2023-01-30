@@ -19,7 +19,7 @@ namespace SongDetailsCache {
             static std::filesystem::path cachePath();
             static std::filesystem::path cachePathEtag(std::string_view source);
 
-            static std::future<std::optional<DownloadedDatabase>> UpdateAndReadDatabase(const std::string_view& dataSourceName = "Direct");
+            static std::future<std::optional<DownloadedDatabase>> UpdateAndReadDatabase(std::string_view dataSourceName = "Direct");
             static std::future<void> WriteCachedDatabase(DownloadedDatabase& db);
             static std::optional<std::ifstream> ReadCachedDatabase();
             static bool HasCachedData(int maximumAgeHours = 12);
@@ -27,6 +27,6 @@ namespace SongDetailsCache {
             static std::filesystem::path basePath;
             friend class SongDetails;
             static void WriteCachedDatabase_internal(DownloadedDatabase& db);
-            static std::optional<DownloadedDatabase> UpdateAndReadDatabase_internal(const std::string_view& dataSourceName = "Direct");
+            static std::optional<DownloadedDatabase> UpdateAndReadDatabase_internal(std::string_view dataSourceName = "Direct");
     };
 }

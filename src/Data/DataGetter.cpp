@@ -29,7 +29,7 @@ namespace SongDetailsCache {
         return std::ifstream(cachePath(), std::ios::binary);
     }
 
-    std::future<std::optional<DataGetter::DownloadedDatabase>> DataGetter::UpdateAndReadDatabase(const std::string_view& dataSourceName) {
+    std::future<std::optional<DataGetter::DownloadedDatabase>> DataGetter::UpdateAndReadDatabase(std::string_view dataSourceName) {
         return std::async(std::launch::async, std::bind(&DataGetter::UpdateAndReadDatabase_internal, dataSourceName));
     }
 
@@ -48,7 +48,7 @@ namespace SongDetailsCache {
         return false;
     }
 
-    std::optional<DataGetter::DownloadedDatabase> DataGetter::UpdateAndReadDatabase_internal(const std::string_view& dataSourceName) {
+    std::optional<DataGetter::DownloadedDatabase> DataGetter::UpdateAndReadDatabase_internal(std::string_view dataSourceName) {
         std::string dataSource;
         for (const auto& [key, value] : dataSources) {
             if (key == dataSourceName) {
