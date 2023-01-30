@@ -61,7 +61,7 @@ namespace SongDetailsCache {
 
         }
 
-		for(uint32_t i = searchNeedle; i-- > 0;) const {
+		for(uint32_t i = searchNeedle; i-- > 0;) {
 			uint32_t songIndex = SongDetailsContainer::hashBytesLUT->operator[](i);
             const auto& hash = SongDetailsContainer::hashBytes->operator[](songIndex);
 

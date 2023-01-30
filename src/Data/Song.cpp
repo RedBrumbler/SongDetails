@@ -125,13 +125,13 @@ namespace SongDetailsCache {
         return false;
     }
 
-    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, MapCharacteristic characteristic) const {
+    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, MapCharacteristic characteristic) const noexcept {
         const SongDifficulty* result = nullptr;
         if (GetDifficulty(result, diff, characteristic)) return *result;
         return SongDifficulty::none;
     }
 
-    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, std::string_view characteristic) const {
+    const SongDifficulty& Song::GetDifficulty(MapDifficulty diff, std::string_view characteristic) const noexcept {
         const SongDifficulty* result = nullptr;
         if (GetDifficulty(result, diff, characteristic)) return *result;
         return SongDifficulty::none;
