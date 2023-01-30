@@ -92,6 +92,11 @@ namespace SongDetailsCache {
                 return this == &other;
             }
 
+            /// @brief checks if this song is the same as none
+            inline operator bool() const noexcept {
+                return this != &none;
+            }
+
             /// @brief Helper function to get a difficulty from this song
             /// @param outDiff a reference to the output pointer
             /// @param diff the difficulty to search for

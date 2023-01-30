@@ -49,6 +49,11 @@ namespace SongDetailsCache {
                 return this == &other;
             }
 
+            /// @brief checks if this difficulty is the same as none
+            inline operator bool() {
+                return this != &none;
+            }
+
             /// @brief default move ctor
             SongDifficulty(SongDifficulty&&) = default;
             /// @brief delete copy ctor
