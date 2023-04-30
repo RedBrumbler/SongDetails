@@ -23,7 +23,7 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::ranked() const noexcept {
-        return stars > 0 && song().rankedStates == RankedStates::ScoresaberRanked;
+        return stars > 0 && hasFlags(song().rankedStates, RankedStates::ScoresaberRanked);
     }
 
     float SongDifficulty::approximatePpValue() const noexcept {
