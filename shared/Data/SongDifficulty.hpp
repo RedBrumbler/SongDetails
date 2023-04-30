@@ -15,6 +15,8 @@ namespace SongDetailsCache {
             static const SongDifficulty none;
             /// @brief Scoresaber difficulty rating of this difficulty
             const float stars;
+            /// @brief BeatLeader difficulty rating of this difficulty
+            const float starsBL;
             /// @brief NJS (Note Jump Speed) of this difficulty
             const float njs;
             /// @brief Amount of bombs in this Difficulty

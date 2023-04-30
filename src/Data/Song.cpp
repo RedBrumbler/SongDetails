@@ -16,7 +16,8 @@ namespace SongDetailsCache {
         uploadTimeUnix(proto ? proto->uploadtimeunix() : 0),
         rankedChangeUnix(proto ? proto->rankedchangeunix() : 0),
         songDurationSeconds(proto ? proto->songdurationseconds() : 0),
-        rankedStatus(static_cast<RankedStatus>(proto ? proto->rankedstate() : 0))
+        rankedStatus(static_cast<RankedStatus>(proto ? proto->rankedstate() : 0)),
+        rankedStates(static_cast<RankedStates>(proto ? proto->rankedstates() : 0))
         {}
 
     float Song::min(std::function<float(const SongDifficulty&)> func) const {

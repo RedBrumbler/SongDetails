@@ -6,6 +6,7 @@ message SongDifficultyProto {
     optional uint32 characteristic = 1;
     optional uint32 difficulty = 2;
     uint32 starsT100 = 4;
+    uint32 starsT100BL = 5;
     uint32 njsT100 = 6;
     uint32 bombs = 7;
     uint32 notes = 8;
@@ -29,6 +30,7 @@ message SongProto {
     uint32 rankedState = 15;
     repeated SongDifficultyProto difficulties = 13;
     string uploaderName = 16;
+    optional uint32 rankedStates = 17;
 }
 
 message SongProtoContainer {

@@ -10,6 +10,7 @@ namespace SongDetailsCache {
         characteristic(proto && proto->has_characteristic() ? static_cast<MapCharacteristic>(proto->characteristic()) : MapCharacteristic::Standard),
         difficulty(proto && proto->has_difficulty() ? static_cast<MapDifficulty>(proto->difficulty()) : MapDifficulty::ExpertPlus),
         stars(proto ? proto->starst100() / 100.0f : 0),
+        starsBL(proto ? proto->starst100bl() / 100.0f : 0),
         njs(proto ? proto->njst100() / 100.0f : 0),
         bombs(proto ? proto->bombs() : 0),
         notes(proto ? proto->notes() : 0),
@@ -22,7 +23,7 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::ranked() const noexcept {
-        return stars > 0 && song().rankedStatus == RankedStatus::Ranked;
+        return stars > 0 && song().rankedStates == RankedStates::ScoresaberRanked;
     }
 
     float SongDifficulty::approximatePpValue() const noexcept {

@@ -2,6 +2,7 @@
 
 #include "SongDifficulty.hpp"
 #include "RankedStatus.hpp"
+#include "RankedStates.hpp"
 #include <string>
 #include <vector>
 #include <cmath>
@@ -69,6 +70,9 @@ namespace SongDetailsCache {
 
             /// @brief Ranked status of the map on ScoreSaber
             const RankedStatus rankedStatus;
+
+            /// @brief Ranked state of the map on both ScoreSaber and BeatLeader (bitwise mask)
+            const RankedStates rankedStates;
 
             /// @return Hexadecimal representation of the Map Hash
             std::string hash() const noexcept;
