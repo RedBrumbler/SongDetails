@@ -14,8 +14,7 @@ on:
       - "**.txt"
       - "!CMakeLists.txt"
       - "**.ps1"
-      - "!build.ps1"
-      - "!createqmod.ps1"
+      - "!scripts/*"
       - "**.md"
       - ".gitignore"
   pull_request:
@@ -34,13 +33,16 @@ jobs:
       VCPKG_ROOT: ${{ github.workspace }}/vcpkg
     steps:
       - uses: FranzDiebold/github-env-vars-action@v2
-      - uses: actions/checkout@v2
-        name: Checkout
+
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           submodules: true
           lfs: true
-      - uses: seanmiddleditch/gha-setup-ninja@v3
-        name: Setup Ninja
+
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
       # - name: Setup Protoc
       #  uses: arduino/setup-protoc@v1
       #  with:
@@ -48,6 +50,7 @@ jobs:
       #    version: '3.x'
       # - name: Run protoc
       #   run: pwsh -Command ./run_protoc.ps1
+
       - name: VCPKG Cache
         id: cache-vcpkg
         uses: actions/cache@v2
@@ -60,6 +63,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
       - name: Get Protobuf from vcpkg
         uses: johnwason/vcpkg-action@v4
         id: vcpkg
@@ -67,30 +71,38 @@ jobs:
           manifest-dir: ${{ github.workspace }}
           triplet: arm64-android
           token: ${{ github.token }}
+
       - name: Create ndkpath.txt
         run: |
           echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
           cat ${GITHUB_WORKSPACE}/ndkpath.txt
+
       - name: Get QPM
         if: steps.cache-qpm.outputs.cache-hit != 'true'
         uses: dawidd6/action-download-artifact@v2
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: cargo-build.yml
-          name: linux-qpm-rust
+          name: linux-qpm
           path: QPM
-          repo: RedBrumbler/QuestPackageManager-Rust
+          repo: QuestPackageManager/QPM.CLI
+
+      - name: Put QPM on path
+        run: |
+          chmod +x ./QPM/qpm
+          echo "${GITHUB_WORKSPACE}/QPM" >> $GITHUB_PATH
+
       - name: QPM Collapse
         run: |
-          chmod +x ./QPM/qpm-rust
-          ./QPM/qpm-rust collapse
+          qpm collapse
+
       - name: QPM Dependencies Cache
         id: cache-qpm-deps
         uses: actions/cache@v2
         env:
           cache-name: cache-qpm-deps
         with:
-          path: /home/runner/.local/share/QPM-Rust/cache
+          path: /home/runner/.local/share/QPM-Rs/cache
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('qpm.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -99,7 +111,7 @@ jobs:
 
       - name: QPM Restore
         run: |
-          ./QPM/qpm-rust restore
+          qpm restore
 
       - name: List Post Restore
         run: |
@@ -108,17 +120,12 @@ jobs:
           echo libs:
           ls -la ${GITHUB_WORKSPACE}/extern/libs
           echo cache:
-          ls -la $HOME/.local/share/QPM-Rust/cache
+          ls -la $HOME/.local/share/QPM-Rs/cache
 
-      - name: Build
+      - name: Build & Create Qmod
         run: |
           cd ${GITHUB_WORKSPACE}
-          ./QPM/qpm-rust qmod build --isLibrary true
-          pwsh -Command ./build.ps1
-
-      - name: Create Qmod
-        run: |
-          pwsh -Command ./createqmod.ps1 ${{env.qmodName}}
+          qpm-rust s qmod
 
       - name: Get Library Name
         id: libname
@@ -155,4 +162,3 @@ jobs:
           username: "${{ github.repository }}"
           avatar-url: "http://github.com/${{ env.CI_ACTOR }}.png"
           filename: ./${{ env.qmodName }}.qmod
-
