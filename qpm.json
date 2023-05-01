@@ -52,7 +52,7 @@
       ],
       "qmod": [
         "pwsh ./scripts/build.ps1 -clean",
-        "qpm-rust qmod build --isLibrary true",
+        "qpm qmod build --isLibrary true",
         "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
       ]
     }
