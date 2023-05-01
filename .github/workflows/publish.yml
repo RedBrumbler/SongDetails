@@ -110,7 +110,7 @@ jobs:
       - name: Build & Create Qmod
         run: |
           cd ${GITHUB_WORKSPACE}
-          qpm-rust s qmod
+          qpm s qmod
 
       - name: Configure commit
         run: |
