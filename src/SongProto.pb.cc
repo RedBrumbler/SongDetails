@@ -153,10 +153,10 @@ const uint32_t TableStruct_SongProto_2eproto::offsets[] PROTOBUF_SECTION_VARIABL
   ~0u,
   ~0u,
   ~0u,
-  ~0u,
-  ~0u,
-  ~0u,
   0,
+  ~0u,
+  ~0u,
+  1,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::SongDetailsCache::Structs::SongProtoContainer, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -187,25 +187,25 @@ const char descriptor_table_protodef_SongProto_2eproto[] PROTOBUF_SECTION_VARIAB
   "\r\022\017\n\007njsT100\030\006 \001(\r\022\r\n\005bombs\030\007 \001(\r\022\r\n\005not"
   "es\030\010 \001(\r\022\021\n\tobstacles\030\t \001(\r\022\021\n\004mods\030\n \001("
   "\rH\002\210\001\001B\021\n\017_characteristicB\r\n\013_difficulty"
-  "B\007\n\005_mods\"\243\003\n\tSongProto\022\013\n\003bpm\030\001 \001(\002\022\025\n\r"
+  "B\007\n\005_mods\"\270\003\n\tSongProto\022\013\n\003bpm\030\001 \001(\002\022\025\n\r"
   "downloadCount\030\002 \001(\r\022\017\n\007upvotes\030\003 \001(\r\022\021\n\t"
   "downvotes\030\004 \001(\r\022\026\n\016uploadTimeUnix\030\005 \001(\r\022"
   "\030\n\020rankedChangeUnix\030\016 \001(\r\022\r\n\005mapId\030\006 \001(\r"
   "\022\033\n\023songDurationSeconds\030\010 \001(\r\022\021\n\thashByt"
   "es\030\t \001(\014\022\020\n\010songName\030\n \001(\t\022\026\n\016songAuthor"
-  "Name\030\013 \001(\t\022\027\n\017levelAuthorName\030\014 \001(\t\022\023\n\013r"
-  "ankedState\030\017 \001(\r\022C\n\014difficulties\030\r \003(\0132-"
-  ".SongDetailsCache.Structs.SongDifficulty"
-  "Proto\022\024\n\014uploaderName\030\020 \001(\t\022\031\n\014rankedSta"
-  "tes\030\021 \001(\rH\000\210\001\001B\017\n\r_rankedStates\"|\n\022SongP"
-  "rotoContainer\022\025\n\rformatVersion\030\001 \001(\r\022\033\n\023"
-  "scrapeEndedTimeUnix\030\002 \001(\004\0222\n\005songs\030\004 \003(\013"
-  "2#.SongDetailsCache.Structs.SongProtob\006p"
-  "roto3"
+  "Name\030\013 \001(\t\022\027\n\017levelAuthorName\030\014 \001(\t\022\030\n\013r"
+  "ankedState\030\017 \001(\rH\000\210\001\001\022C\n\014difficulties\030\r "
+  "\003(\0132-.SongDetailsCache.Structs.SongDiffi"
+  "cultyProto\022\024\n\014uploaderName\030\020 \001(\t\022\031\n\014rank"
+  "edStates\030\021 \001(\rH\001\210\001\001B\016\n\014_rankedStateB\017\n\r_"
+  "rankedStates\"|\n\022SongProtoContainer\022\025\n\rfo"
+  "rmatVersion\030\001 \001(\r\022\033\n\023scrapeEndedTimeUnix"
+  "\030\002 \001(\004\0222\n\005songs\030\004 \003(\0132#.SongDetailsCache"
+  ".Structs.SongProtob\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_SongProto_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_SongProto_2eproto = {
-    false, false, 845, descriptor_table_protodef_SongProto_2eproto,
+    false, false, 866, descriptor_table_protodef_SongProto_2eproto,
     "SongProto.proto",
     &descriptor_table_SongProto_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_SongProto_2eproto::offsets,
@@ -638,8 +638,11 @@ void SongDifficultyProto::InternalSwap(SongDifficultyProto* other) {
 class SongProto::_Internal {
  public:
   using HasBits = decltype(std::declval<SongProto>()._impl_._has_bits_);
-  static void set_has_rankedstates(HasBits* has_bits) {
+  static void set_has_rankedstate(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
+  }
+  static void set_has_rankedstates(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
   }
 };
 
@@ -801,9 +804,14 @@ void SongProto::Clear() {
   _impl_.levelauthorname_.ClearToEmpty();
   _impl_.uploadername_.ClearToEmpty();
   ::memset(&_impl_.bpm_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.rankedstate_) -
-      reinterpret_cast<char*>(&_impl_.bpm_)) + sizeof(_impl_.rankedstate_));
-  _impl_.rankedstates_ = 0u;
+      reinterpret_cast<char*>(&_impl_.rankedchangeunix_) -
+      reinterpret_cast<char*>(&_impl_.bpm_)) + sizeof(_impl_.rankedchangeunix_));
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    ::memset(&_impl_.rankedstate_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&_impl_.rankedstates_) -
+        reinterpret_cast<char*>(&_impl_.rankedstate_)) + sizeof(_impl_.rankedstates_));
+  }
   _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -931,9 +939,10 @@ const char* SongProto::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx
         } else
           goto handle_unusual;
         continue;
-      // uint32 rankedState = 15;
+      // optional uint32 rankedState = 15;
       case 15:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _Internal::set_has_rankedstate(&has_bits);
           _impl_.rankedstate_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
@@ -1084,8 +1093,8 @@ uint8_t* SongProto::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(14, this->_internal_rankedchangeunix(), target);
   }
 
-  // uint32 rankedState = 15;
-  if (this->_internal_rankedstate() != 0) {
+  // optional uint32 rankedState = 15;
+  if (_internal_has_rankedstate()) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(15, this->_internal_rankedstate(), target);
   }
@@ -1208,19 +1217,21 @@ size_t SongProto::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_rankedchangeunix());
   }
 
-  // uint32 rankedState = 15;
-  if (this->_internal_rankedstate() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_rankedstate());
-  }
-
-  // optional uint32 rankedStates = 17;
   cached_has_bits = _impl_._has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    total_size += 2 +
-      ::_pbi::WireFormatLite::UInt32Size(
-        this->_internal_rankedstates());
-  }
+  if (cached_has_bits & 0x00000003u) {
+    // optional uint32 rankedState = 15;
+    if (cached_has_bits & 0x00000001u) {
+      total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_rankedstate());
+    }
 
+    // optional uint32 rankedStates = 17;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 2 +
+        ::_pbi::WireFormatLite::UInt32Size(
+          this->_internal_rankedstates());
+    }
+
+  }
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1283,11 +1294,15 @@ void SongProto::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROT
   if (from._internal_rankedchangeunix() != 0) {
     _this->_internal_set_rankedchangeunix(from._internal_rankedchangeunix());
   }
-  if (from._internal_rankedstate() != 0) {
-    _this->_internal_set_rankedstate(from._internal_rankedstate());
-  }
-  if (from._internal_has_rankedstates()) {
-    _this->_internal_set_rankedstates(from._internal_rankedstates());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_impl_.rankedstate_ = from._impl_.rankedstate_;
+    }
+    if (cached_has_bits & 0x00000002u) {
+      _this->_impl_.rankedstates_ = from._impl_.rankedstates_;
+    }
+    _this->_impl_._has_bits_[0] |= cached_has_bits;
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }

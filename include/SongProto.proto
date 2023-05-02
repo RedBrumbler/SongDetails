@@ -27,7 +27,7 @@ message SongProto {
     string songName = 10;
     string songAuthorName = 11;
     string levelAuthorName = 12;
-    uint32 rankedState = 15;
+    optional uint32 rankedState = 15;
     repeated SongDifficultyProto difficulties = 13;
     string uploaderName = 16;
     optional uint32 rankedStates = 17;

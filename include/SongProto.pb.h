@@ -614,7 +614,11 @@ class SongProto final :
   void _internal_set_rankedchangeunix(uint32_t value);
   public:
 
-  // uint32 rankedState = 15;
+  // optional uint32 rankedState = 15;
+  bool has_rankedstate() const;
+  private:
+  bool _internal_has_rankedstate() const;
+  public:
   void clear_rankedstate();
   uint32_t rankedstate() const;
   void set_rankedstate(uint32_t value);
@@ -1424,9 +1428,17 @@ inline void SongProto::set_allocated_levelauthorname(std::string* levelauthornam
   // @@protoc_insertion_point(field_set_allocated:SongDetailsCache.Structs.SongProto.levelAuthorName)
 }
 
-// uint32 rankedState = 15;
+// optional uint32 rankedState = 15;
+inline bool SongProto::_internal_has_rankedstate() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool SongProto::has_rankedstate() const {
+  return _internal_has_rankedstate();
+}
 inline void SongProto::clear_rankedstate() {
   _impl_.rankedstate_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline uint32_t SongProto::_internal_rankedstate() const {
   return _impl_.rankedstate_;
@@ -1436,7 +1448,7 @@ inline uint32_t SongProto::rankedstate() const {
   return _internal_rankedstate();
 }
 inline void SongProto::_internal_set_rankedstate(uint32_t value) {
-  
+  _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.rankedstate_ = value;
 }
 inline void SongProto::set_rankedstate(uint32_t value) {
@@ -1536,7 +1548,7 @@ inline void SongProto::set_allocated_uploadername(std::string* uploadername) {
 
 // optional uint32 rankedStates = 17;
 inline bool SongProto::_internal_has_rankedstates() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool SongProto::has_rankedstates() const {
@@ -1544,7 +1556,7 @@ inline bool SongProto::has_rankedstates() const {
 }
 inline void SongProto::clear_rankedstates() {
   _impl_.rankedstates_ = 0u;
-  _impl_._has_bits_[0] &= ~0x00000001u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
 inline uint32_t SongProto::_internal_rankedstates() const {
   return _impl_.rankedstates_;
@@ -1554,7 +1566,7 @@ inline uint32_t SongProto::rankedstates() const {
   return _internal_rankedstates();
 }
 inline void SongProto::_internal_set_rankedstates(uint32_t value) {
-  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_._has_bits_[0] |= 0x00000002u;
   _impl_.rankedstates_ = value;
 }
 inline void SongProto::set_rankedstates(uint32_t value) {
