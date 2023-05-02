@@ -6,10 +6,10 @@ namespace SongDetailsCache {
     /// @brief Enum describing what ranked states a map can be in
     enum class RankedStates {
         Unranked =             0,
-        BeatleaderRanked =     1 << 0,
-        BR =                   1 << 0, // alias
-        ScoresaberRanked =     1 << 1,
-        SR =                   1 << 1, // alias
+        ScoresaberRanked =     1 << 0,
+        SR =                   1 << 0, // alias
+        BeatleaderRanked =     1 << 1,
+        BR =                   1 << 1, // alias
         ScoresaberQualified =  1 << 2,
         SQ =                   1 << 2, // alias
         BeatleaderQualified =  1 << 3,
