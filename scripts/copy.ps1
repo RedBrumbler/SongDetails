@@ -5,16 +5,16 @@ param (
     [Switch]$log
 )
 
-& ./build.ps1
+& $PSScriptRoot/build.ps1
 if (-not ($LastExitCode -eq 0)) {
     echo "build failed, not copying"
     exit
 }
 
 if ($debug_so.IsPresent) {
-    & adb push build/debug/libsongdetails.so /sdcard/Android/data/com.beatgames.beatsaber/files/mods/libsongdetails.so
+    & adb push build/debug/libsongdetails.so /sdcard/Android/data/com.beatgames.beatsaber/files/libs/libsongdetails.so
 } else {
-    & adb push build/libsongdetails.so /sdcard/Android/data/com.beatgames.beatsaber/files/mods/libsongdetails.so
+    & adb push build/libsongdetails.so /sdcard/Android/data/com.beatgames.beatsaber/files/libs/libsongdetails.so
 }
 
 & adb shell am force-stop com.beatgames.beatsaber
@@ -22,5 +22,5 @@ if ($debug_so.IsPresent) {
 Start-Sleep -Seconds 1.0
 & adb shell am start com.beatgames.beatsaber/com.unity3d.player.UnityPlayerActivity
 if ($log.IsPresent) {
-    & ./log.ps1
+    & $PSScriptRoot/log.ps1
 }
