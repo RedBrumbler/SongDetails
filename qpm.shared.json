@@ -5,7 +5,7 @@
     "info": {
       "name": "SongDetails",
       "id": "song-details",
-      "version": "0.0.1",
+      "version": "0.3.0",
       "url": "https://github.com/RedBrumbler/SongDetails",
       "additionalData": {
         "overrideSoName": "libsongdetails.so"
@@ -44,17 +44,17 @@
         ],
         "qmod": [
           "pwsh ./scripts/build.ps1 -clean",
-          "qpm-rust qmod build --isLibrary true",
+          "qpm qmod build --isLibrary true",
           "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
         ],
-        "build": [
-          "pwsh ./scripts/build.ps1"
+        "copy": [
+          "pwsh ./scripts/copy.ps1"
         ],
         "clean": [
           "pwsh ./scripts/build.ps1 -clean"
         ],
-        "copy": [
-          "pwsh ./scripts/copy.ps1"
+        "build": [
+          "pwsh ./scripts/build.ps1"
         ]
       }
     }
