@@ -9,7 +9,7 @@ namespace SongDetailsCache {
         songIndex(songIndex),
         characteristic(proto && proto->has_characteristic() ? static_cast<MapCharacteristic>(proto->characteristic()) : MapCharacteristic::Standard),
         difficulty(proto && proto->has_difficulty() ? static_cast<MapDifficulty>(proto->difficulty()) : MapDifficulty::ExpertPlus),
-        stars(proto ? proto->starst100() / 100.0f : 0),
+        starsSS(proto ? proto->starst100() / 100.0f : 0),
         starsBL(proto ? proto->starst100bl() / 100.0f : 0),
         njs(proto ? proto->njst100() / 100.0f : 0),
         bombs(proto ? proto->bombs() : 0),
@@ -23,7 +23,7 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::ranked() const noexcept {
-        return this->rankedBL() && this->rankedSS();
+        return this->rankedBL() || this->rankedSS();
     }
 
     bool SongDifficulty::rankedBL() const noexcept {
@@ -31,13 +31,13 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::rankedSS() const noexcept {
-        return stars > 0 && hasFlags(song().rankedStates, RankedStates::ScoresaberRanked);
+        return starsSS > 0 && hasFlags(song().rankedStates, RankedStates::ScoresaberRanked);
     }
 
     [[deprecated("This function is deprecated. It only works for scoresaber ranked difficulties and is not accurate.")]]
     float SongDifficulty::approximatePpValue() const noexcept {
-        if (stars <= 0.05 || !rankedSS()) return 0;
-        return stars * 43.146f;
+        if (starsSS <= 0.05 || !rankedSS()) return 0;
+        return starsSS * 43.146f;
     }
 
     bool SongDifficulty::usesMods(const MapMods& usedMods) const noexcept {
