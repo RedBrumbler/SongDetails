@@ -191,6 +191,7 @@ class SongDifficultyProto final :
     kCharacteristicFieldNumber = 1,
     kDifficultyFieldNumber = 2,
     kStarsT100FieldNumber = 4,
+    kStarsT100BLFieldNumber = 5,
     kNjsT100FieldNumber = 6,
     kBombsFieldNumber = 7,
     kNotesFieldNumber = 8,
@@ -230,6 +231,15 @@ class SongDifficultyProto final :
   private:
   uint32_t _internal_starst100() const;
   void _internal_set_starst100(uint32_t value);
+  public:
+
+  // uint32 starsT100BL = 5;
+  void clear_starst100bl();
+  uint32_t starst100bl() const;
+  void set_starst100bl(uint32_t value);
+  private:
+  uint32_t _internal_starst100bl() const;
+  void _internal_set_starst100bl(uint32_t value);
   public:
 
   // uint32 njsT100 = 6;
@@ -294,6 +304,7 @@ class SongDifficultyProto final :
     uint32_t characteristic_;
     uint32_t difficulty_;
     uint32_t starst100_;
+    uint32_t starst100bl_;
     uint32_t njst100_;
     uint32_t bombs_;
     uint32_t notes_;
@@ -441,6 +452,7 @@ class SongProto final :
     kSongDurationSecondsFieldNumber = 8,
     kRankedChangeUnixFieldNumber = 14,
     kRankedStateFieldNumber = 15,
+    kRankedStatesFieldNumber = 17,
   };
   // repeated .SongDetailsCache.Structs.SongDifficultyProto difficulties = 13;
   int difficulties_size() const;
@@ -602,13 +614,30 @@ class SongProto final :
   void _internal_set_rankedchangeunix(uint32_t value);
   public:
 
-  // uint32 rankedState = 15;
+  // optional uint32 rankedState = 15;
+  bool has_rankedstate() const;
+  private:
+  bool _internal_has_rankedstate() const;
+  public:
   void clear_rankedstate();
   uint32_t rankedstate() const;
   void set_rankedstate(uint32_t value);
   private:
   uint32_t _internal_rankedstate() const;
   void _internal_set_rankedstate(uint32_t value);
+  public:
+
+  // optional uint32 rankedStates = 17;
+  bool has_rankedstates() const;
+  private:
+  bool _internal_has_rankedstates() const;
+  public:
+  void clear_rankedstates();
+  uint32_t rankedstates() const;
+  void set_rankedstates(uint32_t value);
+  private:
+  uint32_t _internal_rankedstates() const;
+  void _internal_set_rankedstates(uint32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:SongDetailsCache.Structs.SongProto)
@@ -619,6 +648,8 @@ class SongProto final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SongDetailsCache::Structs::SongDifficultyProto > difficulties_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr hashbytes_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr songname_;
@@ -634,7 +665,7 @@ class SongProto final :
     uint32_t songdurationseconds_;
     uint32_t rankedchangeunix_;
     uint32_t rankedstate_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    uint32_t rankedstates_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_SongProto_2eproto;
@@ -903,6 +934,26 @@ inline void SongDifficultyProto::_internal_set_starst100(uint32_t value) {
 inline void SongDifficultyProto::set_starst100(uint32_t value) {
   _internal_set_starst100(value);
   // @@protoc_insertion_point(field_set:SongDetailsCache.Structs.SongDifficultyProto.starsT100)
+}
+
+// uint32 starsT100BL = 5;
+inline void SongDifficultyProto::clear_starst100bl() {
+  _impl_.starst100bl_ = 0u;
+}
+inline uint32_t SongDifficultyProto::_internal_starst100bl() const {
+  return _impl_.starst100bl_;
+}
+inline uint32_t SongDifficultyProto::starst100bl() const {
+  // @@protoc_insertion_point(field_get:SongDetailsCache.Structs.SongDifficultyProto.starsT100BL)
+  return _internal_starst100bl();
+}
+inline void SongDifficultyProto::_internal_set_starst100bl(uint32_t value) {
+  
+  _impl_.starst100bl_ = value;
+}
+inline void SongDifficultyProto::set_starst100bl(uint32_t value) {
+  _internal_set_starst100bl(value);
+  // @@protoc_insertion_point(field_set:SongDetailsCache.Structs.SongDifficultyProto.starsT100BL)
 }
 
 // uint32 njsT100 = 6;
@@ -1377,9 +1428,17 @@ inline void SongProto::set_allocated_levelauthorname(std::string* levelauthornam
   // @@protoc_insertion_point(field_set_allocated:SongDetailsCache.Structs.SongProto.levelAuthorName)
 }
 
-// uint32 rankedState = 15;
+// optional uint32 rankedState = 15;
+inline bool SongProto::_internal_has_rankedstate() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool SongProto::has_rankedstate() const {
+  return _internal_has_rankedstate();
+}
 inline void SongProto::clear_rankedstate() {
   _impl_.rankedstate_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
 inline uint32_t SongProto::_internal_rankedstate() const {
   return _impl_.rankedstate_;
@@ -1389,7 +1448,7 @@ inline uint32_t SongProto::rankedstate() const {
   return _internal_rankedstate();
 }
 inline void SongProto::_internal_set_rankedstate(uint32_t value) {
-  
+  _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.rankedstate_ = value;
 }
 inline void SongProto::set_rankedstate(uint32_t value) {
@@ -1485,6 +1544,34 @@ inline void SongProto::set_allocated_uploadername(std::string* uploadername) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:SongDetailsCache.Structs.SongProto.uploaderName)
+}
+
+// optional uint32 rankedStates = 17;
+inline bool SongProto::_internal_has_rankedstates() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool SongProto::has_rankedstates() const {
+  return _internal_has_rankedstates();
+}
+inline void SongProto::clear_rankedstates() {
+  _impl_.rankedstates_ = 0u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline uint32_t SongProto::_internal_rankedstates() const {
+  return _impl_.rankedstates_;
+}
+inline uint32_t SongProto::rankedstates() const {
+  // @@protoc_insertion_point(field_get:SongDetailsCache.Structs.SongProto.rankedStates)
+  return _internal_rankedstates();
+}
+inline void SongProto::_internal_set_rankedstates(uint32_t value) {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_.rankedstates_ = value;
+}
+inline void SongProto::set_rankedstates(uint32_t value) {
+  _internal_set_rankedstates(value);
+  // @@protoc_insertion_point(field_set:SongDetailsCache.Structs.SongProto.rankedStates)
 }
 
 // -------------------------------------------------------------------

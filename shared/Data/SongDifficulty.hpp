@@ -14,7 +14,9 @@ namespace SongDetailsCache {
         public:
             static const SongDifficulty none;
             /// @brief Scoresaber difficulty rating of this difficulty
-            const float stars;
+            const float starsSS;
+            /// @brief BeatLeader difficulty rating of this difficulty
+            const float starsBL;
             /// @brief NJS (Note Jump Speed) of this difficulty
             const float njs;
             /// @brief Amount of bombs in this Difficulty
@@ -33,8 +35,14 @@ namespace SongDetailsCache {
             /// @brief The song this Difficulty belongs to
             const Song& song() const noexcept;
 
-            /// @brief Returns if the Difficulty is ranked on ScoreSaber
+            /// @brief Returns if the Difficulty is ranked on Scoresaber or BeatLeader
             bool ranked() const noexcept;
+
+            /// @brief Returns if the Difficulty is ranked on BeatLeader
+            bool rankedBL() const noexcept;
+            
+            /// @brief Returns if the Difficulty is ranked on Scoresaber
+            bool rankedSS() const noexcept;
 
             /// @brief Returns the PP value of a 95% Accuracy score
             float approximatePpValue() const noexcept;

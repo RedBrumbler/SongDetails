@@ -2,6 +2,7 @@
 
 #include "SongDifficulty.hpp"
 #include "RankedStatus.hpp"
+#include "RankedStates.hpp"
 #include <string>
 #include <vector>
 #include <cmath>
@@ -34,13 +35,19 @@ namespace SongDetailsCache {
             float minNJS() const noexcept;
             /// @brief Gets the maximum njs for all diffs of this song
             float maxNJS() const noexcept;
-            /// @brief Gets the maximum star value in all diffs of this song
-            float minStar() const noexcept;
-            /// @brief Gets the maximum star value in all diffs of this song
-            float maxStar() const noexcept;
+            /// @brief Gets the minimum star value in all diffs of this song for BeatLeader
+            float minStarBL() const noexcept;
+            /// @brief Gets the maximum star value in all diffs of this song for BeatLeader
+            float maxStarBL() const noexcept;
+            /// @brief Gets the minimum star value in all diffs of this song for Scoresaber
+            float minStarSS() const noexcept;
+            /// @brief Gets the maximum star value in all diffs of this song for Scoresaber
+            float maxStarSS() const noexcept;
             /// @brief Gets the maximum pp value in all diffs of this song
+            [[deprecated("This function is deprecated. It only works for scoresaber ranked difficulties and is not accurate.")]]
             float minPP() const noexcept;
             /// @brief Gets the maximum pp value in all diffs of this song
+            [[deprecated("This function is deprecated. It only works for scoresaber ranked difficulties and is not accurate.")]]
             float maxPP() const noexcept;
 
             /// @brief Unix timestamp of when the map was uploaded
@@ -69,6 +76,9 @@ namespace SongDetailsCache {
 
             /// @brief Ranked status of the map on ScoreSaber
             const RankedStatus rankedStatus;
+
+            /// @brief Ranked state of the map on both ScoreSaber and BeatLeader (bitwise mask)
+            const RankedStates rankedStates;
 
             /// @return Hexadecimal representation of the Map Hash
             std::string hash() const noexcept;
