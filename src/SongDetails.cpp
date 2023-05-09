@@ -81,4 +81,7 @@ namespace SongDetailsCache {
         }
         return count;
     }
+    std::chrono::sys_seconds SongDetails::get_scrapeEndedTimeUnix() const {
+        return SongDetailsContainer::scrapeEndedTimeUnix;
+    }
 }

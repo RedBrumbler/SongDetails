@@ -32,6 +32,9 @@ namespace SongDetailsCache {
             /// @param check the callback ran to check if this difficulty satisfies the condition
             /// @return amount of songs found that satisfy the condition
             std::size_t CountSongs(const DifficultyFilterFunction& check) const;
+            /// @brief gets the time from when the last scrape was done
+            /// @return unix timestamp of the last scrape end time
+            std::chrono::sys_seconds get_scrapeEndedTimeUnix() const;
 
             /// @brief Invoked when data is available or was updated
             static UnorderedEventCallback<> dataAvailableOrUpdated;
