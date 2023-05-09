@@ -8,7 +8,11 @@
       "version": "0.3.1",
       "url": "https://github.com/RedBrumbler/SongDetails",
       "additionalData": {
-        "overrideSoName": "libsongdetails.so"
+        "soLink": "https://github.com/RedBrumbler/SongDetails/releases/download/v0.3.1/libsongdetails.so",
+        "debugSoLink": "https://github.com/RedBrumbler/SongDetails/releases/download/v0.3.1/debug_libsongdetails.so",
+        "overrideSoName": "libsongdetails.so",
+        "modLink": "https://github.com/RedBrumbler/SongDetails/releases/download/v0.3.1/SongDetails.qmod",
+        "branchName": "version-v0.3.1"
       }
     },
     "dependencies": [
@@ -39,22 +43,22 @@
     ],
     "workspace": {
       "scripts": {
-        "build": [
-          "pwsh ./scripts/build.ps1"
-        ],
         "log": [
           "pwsh ./scripts/log.ps1"
+        ],
+        "clean": [
+          "pwsh ./scripts/build.ps1 -clean"
         ],
         "qmod": [
           "pwsh ./scripts/build.ps1 -clean",
           "qpm qmod build --isLibrary true",
           "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
         ],
-        "clean": [
-          "pwsh ./scripts/build.ps1 -clean"
-        ],
         "copy": [
           "pwsh ./scripts/copy.ps1"
+        ],
+        "build": [
+          "pwsh ./scripts/build.ps1"
         ]
       }
     }
