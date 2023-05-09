@@ -35,11 +35,11 @@ namespace SongDetailsCache {
             float minNJS() const noexcept;
             /// @brief Gets the maximum njs for all diffs of this song
             float maxNJS() const noexcept;
-            /// @brief Gets the maximum star value in all diffs of this song for BeatLeader
+            /// @brief Gets the minimum star value in all diffs of this song for BeatLeader
             float minStarBL() const noexcept;
             /// @brief Gets the maximum star value in all diffs of this song for BeatLeader
             float maxStarBL() const noexcept;
-            /// @brief Gets the maximum star value in all diffs of this song for Scoresaber
+            /// @brief Gets the minimum star value in all diffs of this song for Scoresaber
             float minStarSS() const noexcept;
             /// @brief Gets the maximum star value in all diffs of this song for Scoresaber
             float maxStarSS() const noexcept;

@@ -23,7 +23,7 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::ranked() const noexcept {
-        return this->rankedBL() || this->rankedSS();
+        return this->rankedSS() || this->rankedBL();
     }
 
     bool SongDifficulty::rankedBL() const noexcept {
