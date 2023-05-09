@@ -23,11 +23,20 @@ namespace SongDetailsCache {
     }
 
     bool SongDifficulty::ranked() const noexcept {
+        return this->rankedBL() && this->rankedSS();
+    }
+
+    bool SongDifficulty::rankedBL() const noexcept {
+        return starsBL > 0 && hasFlags(song().rankedStates, RankedStates::BeatleaderRanked);
+    }
+
+    bool SongDifficulty::rankedSS() const noexcept {
         return stars > 0 && hasFlags(song().rankedStates, RankedStates::ScoresaberRanked);
     }
 
+    [[deprecated("This function is deprecated. It only works for scoresaber ranked difficulties and is not accurate.")]]
     float SongDifficulty::approximatePpValue() const noexcept {
-        if (stars <= 0.05 || !ranked()) return 0;
+        if (stars <= 0.05 || !rankedSS()) return 0;
         return stars * 43.146f;
     }
 

@@ -35,8 +35,14 @@ namespace SongDetailsCache {
             /// @brief The song this Difficulty belongs to
             const Song& song() const noexcept;
 
-            /// @brief Returns if the Difficulty is ranked on ScoreSaber
+            /// @brief Returns if the Difficulty is ranked on Both Scoresaber and BeatLeader
             bool ranked() const noexcept;
+
+            /// @brief Returns if the Difficulty is ranked on BeatLeader
+            bool rankedBL() const noexcept;
+            
+            /// @brief Returns if the Difficulty is ranked on Scoresaber
+            bool rankedSS() const noexcept;
 
             /// @brief Returns the PP value of a 95% Accuracy score
             float approximatePpValue() const noexcept;
