@@ -2,9 +2,6 @@
 #include "logging.hpp"
 #include "Data/SongDetailsContainer.hpp"
 
-#include "libcurl/shared/curl.h"
-#include "libcurl/shared/easy.h"
-
 #include <unordered_map>
 #include <sstream>
 #include <iomanip>
@@ -142,7 +139,7 @@ namespace SongDetailsCache {
 			s->append((char*)contents, newLength);
 		} catch(std::bad_alloc &e) {
 			//handle memory problem
-			CRITICAL("Failed to allocate string of size: %lu", newLength);
+			CRITICAL("Failed to allocate string of size: {}", newLength);
 			return 0;
 		}
 		return newLength;
@@ -183,10 +180,10 @@ namespace SongDetailsCache {
 
         curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
-        auto res = curl_easy_perform(curl);
+        response.curlStatus = curl_easy_perform(curl);
         /* Check for errors */
-        if (res != CURLE_OK) {
-            ERROR("curl_easy_perform() failed: %u: %s", res, curl_easy_strerror(res));
+        if (response.curlStatus != CURLE_OK) {
+            ERROR("curl_easy_perform() failed: {}: {}", response.curlStatus, curl_easy_strerror(response.curlStatus));
         }
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response.httpCode);
         curl_easy_cleanup(curl);
