@@ -71,7 +71,7 @@ namespace SongDetailsCache {
 
         auto resp = WebUtil::GetAsync(dataSource, 20, req_headers).get();
         // value is same
-        if (resp.httpCode == 304 && resp.curlStatus == 0 /* CURLE_OK */) {
+        if (resp.httpCode == 304 && resp.curlStatus == CURLE_OK) {
             INFO("Etag was the same, returning nullopt");
             return std::nullopt;
         }
