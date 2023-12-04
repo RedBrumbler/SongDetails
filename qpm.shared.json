@@ -42,19 +42,19 @@
         "build": [
           "pwsh ./scripts/build.ps1"
         ],
-        "log": [
-          "pwsh ./scripts/log.ps1"
-        ],
-        "clean": [
-          "pwsh ./scripts/build.ps1 -clean"
+        "copy": [
+          "pwsh ./scripts/copy.ps1"
         ],
         "qmod": [
           "pwsh ./scripts/build.ps1 -clean",
           "qpm qmod build --isLibrary true",
           "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
         ],
-        "copy": [
-          "pwsh ./scripts/copy.ps1"
+        "clean": [
+          "pwsh ./scripts/build.ps1 -clean"
+        ],
+        "log": [
+          "pwsh ./scripts/log.ps1"
         ]
       }
     }
@@ -69,7 +69,7 @@
           "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/debug_libpaperlog.so",
           "overrideSoName": "libpaperlog.so",
           "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/paperlog.qmod",
-          "branchName": "version/v1_2_9"
+          "branchName": "version-v1.2.9"
         }
       },
       "version": "1.2.9"
@@ -125,10 +125,10 @@
     {
       "dependency": {
         "id": "fmt",
-        "versionRange": "=10.0.0",
+        "versionRange": "=9.0.0",
         "additionalData": {
           "headersOnly": true,
-          "branchName": "version/v10_0_0",
+          "branchName": "version-v9.0.0",
           "compileOptions": {
             "systemIncludes": [
               "fmt/include/"
@@ -139,7 +139,7 @@
           }
         }
       },
-      "version": "10.0.0"
+      "version": "9.0.0"
     }
   ]
 }
