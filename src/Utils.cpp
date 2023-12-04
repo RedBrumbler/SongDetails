@@ -183,7 +183,7 @@ namespace SongDetailsCache {
         response.curlStatus = curl_easy_perform(curl);
         /* Check for errors */
         if (response.curlStatus != CURLE_OK) {
-            ERROR("curl_easy_perform() failed: {}: {}", response.curlStatus, curl_easy_strerror(response.curlStatus));
+            ERROR("curl_easy_perform() failed: {}: {}", (int)response.curlStatus, curl_easy_strerror(response.curlStatus));
         }
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response.httpCode);
         curl_easy_cleanup(curl);

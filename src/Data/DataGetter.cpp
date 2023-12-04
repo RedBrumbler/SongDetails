@@ -77,7 +77,7 @@ namespace SongDetailsCache {
         }
 
         if (!resp) { // failed to perform Get operation properly
-            std::string log = fmt::format("Failed to dl database: httpCode: {}, curl status: {} ({})", resp.httpCode, curl_easy_strerror(resp.curlStatus), resp.curlStatus);
+            std::string log = fmt::format("Failed to dl database: httpCode: {}, curl status: {} ({})", resp.httpCode, curl_easy_strerror(resp.curlStatus), (int)resp.curlStatus);
             ERROR(log);
             throw std::runtime_error(log);
         }
