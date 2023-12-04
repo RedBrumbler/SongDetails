@@ -33,9 +33,9 @@ namespace SongDetailsCache {
                 /// @brief http content
                 std::string content;
 
-                /// @brief checks for httpCode 200 and curlStatus CURLE_OK
-                operator bool() {
-                    return httpCode == 200 && curlStatus == CURLE_OK;
+                /// @brief checks for httpCode 200 - 299 and curlStatus CURLE_OK
+                inline constexpr operator bool() const noexcept {
+                    return httpCode >= 200 && httpCode < 300 && curlStatus == CURLE_OK;
                 }
             };
 
