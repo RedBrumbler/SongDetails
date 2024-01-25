@@ -71,14 +71,17 @@ namespace SongDetailsCache {
 
         auto resp = WebUtil::GetAsync(dataSource, 20, req_headers).get();
         // value is same
-        if (resp.httpCode == 304) {
+        if (resp.httpCode == 304 && resp.curlStatus == CURLE_OK) {
             INFO("Etag was the same, returning nullopt");
             return std::nullopt;
         }
-        if (resp.httpCode != 200) {
-            ERROR("HTTP response code was {}", resp.httpCode);
-            throw std::runtime_error("Failed to dl database");
+
+        if (!resp) { // failed to perform Get operation properly
+            std::string log = fmt::format("Failed to dl database: httpCode: {}, curl status: {} ({})", resp.httpCode, curl_easy_strerror(resp.curlStatus), (int)resp.curlStatus);
+            ERROR("{}", log);
+            throw std::runtime_error(log);
         }
+
 
         DownloadedDatabase downloadedDatabase;
         // assign data source

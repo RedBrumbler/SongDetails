@@ -19,7 +19,7 @@
       },
       {
         "id": "beatsaber-hook",
-        "versionRange": "*",
+        "versionRange": "^3.14.0",
         "additionalData": {}
       },
       {
@@ -39,22 +39,22 @@
     ],
     "workspace": {
       "scripts": {
-        "log": [
-          "pwsh ./scripts/log.ps1"
+        "build": [
+          "pwsh ./scripts/build.ps1"
+        ],
+        "copy": [
+          "pwsh ./scripts/copy.ps1"
         ],
         "qmod": [
           "pwsh ./scripts/build.ps1 -clean",
-          "qpm-rust qmod build --isLibrary true",
+          "qpm qmod build --isLibrary true",
           "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
-        ],
-        "build": [
-          "pwsh ./scripts/build.ps1"
         ],
         "clean": [
           "pwsh ./scripts/build.ps1 -clean"
         ],
-        "copy": [
-          "pwsh ./scripts/copy.ps1"
+        "log": [
+          "pwsh ./scripts/log.ps1"
         ]
       }
     }
@@ -77,12 +77,12 @@
     {
       "dependency": {
         "id": "libil2cpp",
-        "versionRange": "=0.2.3",
+        "versionRange": "=0.2.5",
         "additionalData": {
           "headersOnly": true
         }
       },
-      "version": "0.2.3"
+      "version": "0.2.5"
     },
     {
       "dependency": {

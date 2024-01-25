@@ -10,3 +10,4 @@ mod.json
 *.psd
 *.~cpp
 *.~hpp
+vcpkg_installed/
