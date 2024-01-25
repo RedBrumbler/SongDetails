@@ -7,18 +7,14 @@
     "version": "0.0.1",
     "url": "https://github.com/RedBrumbler/SongDetails",
     "additionalData": {
-      "overrideSoName": "libsongdetails.so"
+      "overrideSoName": "libsongdetails.so",
+      "cmake": true
     }
   },
   "dependencies": [
     {
-      "id": "libil2cpp",
-      "versionRange": "^0.2.3",
-      "additionalData": {}
-    },
-    {
       "id": "beatsaber-hook",
-      "versionRange": "^3.14.0",
+      "versionRange": "^5.0.7",
       "additionalData": {}
     },
     {
@@ -30,7 +26,7 @@
     },
     {
       "id": "paper",
-      "versionRange": "^1.2.9",
+      "versionRange": "^3.3.1",
       "additionalData": {
         "private": true
       }

@@ -1,5 +1,6 @@
 {
   "config": {
+    "version": "0.1.0",
     "sharedDir": "shared",
     "dependenciesDir": "extern",
     "info": {
@@ -8,18 +9,35 @@
       "version": "0.0.1",
       "url": "https://github.com/RedBrumbler/SongDetails",
       "additionalData": {
-        "overrideSoName": "libsongdetails.so"
+        "overrideSoName": "libsongdetails.so",
+        "cmake": true
+      }
+    },
+    "workspace": {
+      "scripts": {
+        "build": [
+          "pwsh ./scripts/build.ps1"
+        ],
+        "clean": [
+          "pwsh ./scripts/build.ps1 -clean"
+        ],
+        "copy": [
+          "pwsh ./scripts/copy.ps1"
+        ],
+        "log": [
+          "pwsh ./scripts/log.ps1"
+        ],
+        "qmod": [
+          "pwsh ./scripts/build.ps1 -clean",
+          "qpm qmod build --isLibrary true",
+          "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
+        ]
       }
     },
     "dependencies": [
       {
-        "id": "libil2cpp",
-        "versionRange": "^0.2.3",
-        "additionalData": {}
-      },
-      {
         "id": "beatsaber-hook",
-        "versionRange": "^3.14.0",
+        "versionRange": "^5.0.7",
         "additionalData": {}
       },
       {
@@ -31,58 +49,38 @@
       },
       {
         "id": "paper",
-        "versionRange": "^1.2.9",
+        "versionRange": "^3.3.1",
         "additionalData": {
           "private": true
         }
       }
-    ],
-    "workspace": {
-      "scripts": {
-        "build": [
-          "pwsh ./scripts/build.ps1"
-        ],
-        "copy": [
-          "pwsh ./scripts/copy.ps1"
-        ],
-        "qmod": [
-          "pwsh ./scripts/build.ps1 -clean",
-          "qpm qmod build --isLibrary true",
-          "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
-        ],
-        "clean": [
-          "pwsh ./scripts/build.ps1 -clean"
-        ],
-        "log": [
-          "pwsh ./scripts/log.ps1"
-        ]
-      }
-    }
+    ]
   },
   "restoredDependencies": [
     {
       "dependency": {
         "id": "paper",
-        "versionRange": "=1.2.9",
+        "versionRange": "=3.3.1",
         "additionalData": {
-          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/libpaperlog.so",
-          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/debug_libpaperlog.so",
+          "soLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.1/libpaperlog.so",
+          "debugSoLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.1/debug_libpaperlog.so",
           "overrideSoName": "libpaperlog.so",
-          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v1.2.9/paperlog.qmod",
-          "branchName": "version-v1.2.9"
+          "modLink": "https://github.com/Fernthedev/paperlog/releases/download/v3.3.1/paperlog.qmod",
+          "branchName": "version/v3_3_1",
+          "cmake": false
         }
       },
-      "version": "1.2.9"
+      "version": "3.3.1"
     },
     {
       "dependency": {
         "id": "libil2cpp",
-        "versionRange": "=0.2.5",
+        "versionRange": "=0.3.1",
         "additionalData": {
           "headersOnly": true
         }
       },
-      "version": "0.2.5"
+      "version": "0.3.1"
     },
     {
       "dependency": {
@@ -90,7 +88,6 @@
         "versionRange": "=7.78.0",
         "additionalData": {
           "staticLinking": true,
-          "useRelease": true,
           "soLink": "https://github.com/darknight1050/openssl-curl-android/releases/download/v7.78.0/libcurl.a",
           "overrideSoName": "libcurl.a",
           "branchName": "version-v7.78.0"
@@ -101,34 +98,23 @@
     {
       "dependency": {
         "id": "beatsaber-hook",
-        "versionRange": "=3.14.0",
+        "versionRange": "=5.0.7",
         "additionalData": {
-          "soLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/libbeatsaber-hook_3_14_0.so",
-          "debugSoLink": "https://github.com/sc2ad/beatsaber-hook/releases/download/v3.14.0/debug_libbeatsaber-hook_3_14_0.so",
-          "branchName": "version-v3.14.0"
+          "soLink": "https://github.com/QuestPackageManager/beatsaber-hook/releases/download/v5.0.7/libbeatsaber-hook_5_0_7.so",
+          "debugSoLink": "https://github.com/QuestPackageManager/beatsaber-hook/releases/download/v5.0.7/debug_libbeatsaber-hook_5_0_7.so",
+          "branchName": "version/v5_0_7",
+          "cmake": true
         }
       },
-      "version": "3.14.0"
-    },
-    {
-      "dependency": {
-        "id": "modloader",
-        "versionRange": "=1.2.3",
-        "additionalData": {
-          "soLink": "https://github.com/sc2ad/QuestLoader/releases/download/v1.2.3/libmodloader64.so",
-          "overrideSoName": "libmodloader.so",
-          "branchName": "version-v1.2.3"
-        }
-      },
-      "version": "1.2.3"
+      "version": "5.0.7"
     },
     {
       "dependency": {
         "id": "fmt",
-        "versionRange": "=9.0.0",
+        "versionRange": "=10.0.0",
         "additionalData": {
           "headersOnly": true,
-          "branchName": "version-v9.0.0",
+          "branchName": "version/v10_0_0",
           "compileOptions": {
             "systemIncludes": [
               "fmt/include/"
@@ -139,7 +125,17 @@
           }
         }
       },
-      "version": "9.0.0"
+      "version": "10.0.0"
+    },
+    {
+      "dependency": {
+        "id": "scotland2",
+        "versionRange": "=0.1.3",
+        "additionalData": {
+          "overrideSoName": "libsl2.so"
+        }
+      },
+      "version": "0.1.3"
     }
   ]
 }

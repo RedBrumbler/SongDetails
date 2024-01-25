@@ -3,6 +3,9 @@
 #include "SongDifficulty.hpp"
 #include "RankedStatus.hpp"
 #include "RankedStates.hpp"
+
+#include <chrono>
+#include <functional>
 #include <string>
 #include <vector>
 #include <cmath>
