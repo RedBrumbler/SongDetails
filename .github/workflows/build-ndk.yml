@@ -3,160 +3,136 @@ name: NDK build
 on:
   workflow_dispatch:
   push:
+    tags:
+      - "v*"
     branches:
-      - master
+      - 'master'
+      - 'dev/*'
+      - 'feat/*'
+      - 'fix/*'
     paths-ignore:
-      - "**.yml"
-      - "!.github/workflows/build-ndk.yml"
-      - "**.json"
-      - "!qpm.json"
-      - "!mod.template.json"
-      - "**.txt"
-      - "!CMakeLists.txt"
-      - "**.ps1"
-      - "!scripts/*"
-      - "**.md"
-      - ".gitignore"
+      - '**.yml'
+      - '!.github/workflows/build-ndk.yml'
+      - '**.json'
+      - '!qpm.json'
+      - '!mod.template.json'
+      - '**.txt'
+      - '!CMakeLists.txt'
+      - '**.ps1'
+      - '!scripts/*.ps1'
+      - '**.md'
+      - '.gitignore'
   pull_request:
-    branches:
-      - master
+    branches: master
 
 env:
-  module_id: songdetails
-  qmodName: SongDetails
+    module_id: song-details
+    qmod_name: SongDetails
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
     steps:
-      - uses: FranzDiebold/github-env-vars-action@v2
+    - uses: actions/checkout@v2
+      name: Checkout
+      with:
+        submodules: true
+        lfs: true
 
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: true
-          lfs: true
+    - uses: seanmiddleditch/gha-setup-ninja@v3
 
-      - name: Setup Ninja
-        uses: seanmiddleditch/gha-setup-ninja@v3
+    # Use canary NDK to avoid lesser known compile bugs
+    - name: Setup canary NDK
+      id: setup-ndk
+      uses: ./.github/actions/canary-ndk
 
-      # - name: Setup Protoc
-      #  uses: arduino/setup-protoc@v1
-      #  with:
-      #    repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #    version: '3.x'
-      # - name: Run protoc
-      #   run: pwsh -Command ./run_protoc.ps1
+    - name: Create ndkpath.txt
+      run: |
+        echo ${{ steps.setup-ndk.outputs.ndk-path }} > ${GITHUB_WORKSPACE}/ndkpath.txt
+        cat ${GITHUB_WORKSPACE}/ndkpath.txt
 
-      - name: VCPKG Cache
-        id: cache-vcpkg
-        uses: actions/cache@v2
-        env:
-          cache-name: ${{ steps.vcpkg.outputs.vcpkg_cache }}
-        with:
-          path: ${{ github.workspace }}/vcpkg
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('vcpkg.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+    # get version from pushed tag
+    - name: Extract version
+      if: startsWith(github.ref, 'refs/tags/v')
+      id: version
+      run: |
+        echo "TAG=${GITHUB_REF#refs/tags/}" >> ${GITHUB_OUTPUT}
+        echo "VERSION=${GITHUB_REF#refs/tags/v}" >> ${GITHUB_OUTPUT}
 
-      - name: Get Protobuf from vcpkg
-        uses: johnwason/vcpkg-action@v4
-        id: vcpkg
-        with:
-          manifest-dir: ${{ github.workspace }}
-          triplet: arm64-android
-          token: ${{ github.token }}
+    # if we don't have a tag, don't do anything special
+    - name: Setup qpm
+      if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+      uses: Fernthedev/qpm-action@main
+      with:
+        workflow_token: ${{ secrets.GITHUB_TOKEN }}
+        restore: true
+        cache: true
+        publish: false
 
-      - name: Create ndkpath.txt
-        run: |
-          echo "$ANDROID_NDK_LATEST_HOME" > ${GITHUB_WORKSPACE}/ndkpath.txt
-          cat ${GITHUB_WORKSPACE}/ndkpath.txt
+    # if we have a tag, we are making a qpm release
+    - name: Setup qpm for release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: Fernthedev/qpm-action@main
+      with:
+        workflow_token: ${{ secrets.GITHUB_TOKEN }}
+        restore: true
+        cache: true
+        publish: true
+        publish_token: ${{ secrets.QPM_KEY }}
+        version: ${{ steps.version.outputs.VERSION }}
+        tag: ${{ steps.version.outputs.TAG }}
+        qpm_release_bin: true
+        qpm_debug_bin: true
+        qpm_qmod: ${{ env.qmod_name }}.qmod
 
-      - name: Get QPM
-        if: steps.cache-qpm.outputs.cache-hit != 'true'
-        uses: dawidd6/action-download-artifact@v2
-        with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: cargo-build.yml
-          name: linux-qpm
-          path: QPM
-          repo: QuestPackageManager/QPM.CLI
+    - name: Build & Create Qmod
+      run: |
+        cd ${GITHUB_WORKSPACE}
+        qpm s qmod
 
-      - name: Put QPM on path
-        run: |
-          chmod +x ./QPM/qpm
-          echo "${GITHUB_WORKSPACE}/QPM" >> $GITHUB_PATH
+    - name: Get Library Name
+      id: libname
+      run: |
+        cd ./build/
+        pattern="lib${module_id}*.so"
+        files=( $pattern )
+        echo "NAME=${files[0]}" >> ${GITHUB_OUTPUT}
 
-      - name: QPM Collapse
-        run: |
-          qpm collapse
+    - name: Rename debug artifact
+      run: mv "./build/debug/${{ steps.libname.outputs.NAME }}" "./build/debug_${{ steps.libname.outputs.NAME }}"
 
-      - name: QPM Dependencies Cache
-        id: cache-qpm-deps
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-qpm-deps
-        with:
-          path: /home/runner/.local/share/QPM-Rs/cache
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('qpm.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+    - name: Upload non-debug artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.libname.outputs.NAME }}
+        path: ./build/${{ steps.libname.outputs.NAME }}
+        if-no-files-found: error
 
-      - name: QPM Restore
-        run: |
-          qpm restore
+    - name: Upload debug artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: debug_${{ steps.libname.outputs.NAME }}
+        path: ./build/debug_${{ steps.libname.outputs.NAME }}
+        if-no-files-found: error
 
-      - name: List Post Restore
-        run: |
-          echo includes:
-          ls -la ${GITHUB_WORKSPACE}/extern/includes
-          echo libs:
-          ls -la ${GITHUB_WORKSPACE}/extern/libs
+    - name: Upload qmod artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.qmod_name}}.qmod
+        path: ./${{ env.qmod_name }}.qmod
+        if-no-files-found: error
 
-      - name: Build & Create Qmod
-        run: |
-          cd ${GITHUB_WORKSPACE}
-          qpm s qmod
-
-      - name: Get Library Name
-        id: libname
-        run: |
-          cd ./build/
-          pattern="lib${module_id}*.so"
-          files=( $pattern )
-          echo "NAME=${files[0]}" >> $GITHUB_OUTPUT
-
-      - name: Upload release artifact
-        if: "${{ env.WEBHOOK != '' }}"
-        uses: tsickert/discord-webhook@v3.2.0
-        with:
-          webhook-url: ${{ env.WEBHOOK }}
-          content: "${{ env.CI_SHA_SHORT }} - `${{ github.event.head_commit.message }}`"
-          username: "${{ github.repository }}"
-          avatar-url: "http://github.com/${{ env.CI_ACTOR }}.png"
-          filename: ./build/${{ steps.libname.outputs.NAME }}
-
-      - name: Upload debug artifact
-        if: "${{ env.WEBHOOK != '' }}"
-        uses: tsickert/discord-webhook@v3.2.0
-        with:
-          webhook-url: ${{ env.WEBHOOK }}
-          username: "${{ github.repository }}"
-          avatar-url: "http://github.com/${{ env.CI_ACTOR }}.png"
-          filename: ./build/debug/${{ steps.libname.outputs.NAME }}
-
-      - name: Upload qmod
-        if: "${{ env.WEBHOOK != '' }}"
-        uses: tsickert/discord-webhook@v3.2.0
-        with:
-          webhook-url: ${{ env.WEBHOOK }}
-          username: "${{ github.repository }}"
-          avatar-url: "http://github.com/${{ env.CI_ACTOR }}.png"
-          filename: ./${{ env.qmodName }}.qmod
+    # if we had a tag, we should make a release
+    - name: Upload release artifacts
+      if: startsWith(github.ref, 'refs/tags/v')
+      id: upload_file_release
+      uses: softprops/action-gh-release@v0.1.15
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        files: |
+          ./build/${{ steps.libname.outputs.NAME }}
+          ./build/debug_${{ steps.libname.outputs.NAME }}
+          ./${{ env.qmod_name }}.qmod
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

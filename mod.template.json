@@ -1,5 +1,5 @@
 {
-    "_QPVersion": "0.1.0",
+    "_QPVersion": "1.1.0",
     "name": "${mod_name}",
     "id": "${mod_id}",
     "author": "RedBrumbler",
@@ -8,6 +8,8 @@
     "description": "Library that provides details about songs from BeatSaver",
     "dependencies": [],
     "modFiles": [],
-    "libraryFiles": [],
+    "libraryFiles": [
+        "${binary}"
+    ],
     "fileCopies": []
 }
