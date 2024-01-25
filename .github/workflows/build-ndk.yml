@@ -26,13 +26,14 @@ on:
     branches: master
 
 env:
-    module_id: song-details
+    module_id: songdetails
     qmod_name: SongDetails
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
     steps:
     - uses: actions/checkout@v2
       name: Checkout
@@ -41,6 +42,27 @@ jobs:
         lfs: true
 
     - uses: seanmiddleditch/gha-setup-ninja@v3
+
+    - name: VCPKG Cache
+      id: cache-vcpkg
+      uses: actions/cache@v2
+      env:
+        cache-name: ${{ steps.vcpkg.outputs.vcpkg_cache }}
+      with:
+        path: ${{ github.workspace }}/vcpkg
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Get Protobuf from vcpkg
+      uses: johnwason/vcpkg-action@v4
+      id: vcpkg
+      with:
+        manifest-dir: ${{ github.workspace }}
+        triplet: arm64-android
+        token: ${{ github.token }}
 
     # Use canary NDK to avoid lesser known compile bugs
     - name: Setup canary NDK
