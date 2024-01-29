@@ -1,5 +1,6 @@
 #pragma once
 
+#include "./_config.h"
 #include "beatsaber-hook/shared/utils/typedefs-wrappers.hpp"
 #include "Data/Song.hpp"
 #include "Data/SongDifficulty.hpp"
@@ -10,7 +11,7 @@
 #include <functional>
 
 namespace SongDetailsCache {
-    class SongDetails {
+    class SONGDETAILS_EXPORT SongDetails {
         public:
             SongArray songs = SongArray();
             DiffArray difficulties = DiffArray();

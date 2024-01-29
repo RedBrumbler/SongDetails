@@ -1,9 +1,11 @@
 #pragma once
 
+#include "../_config.h"
 #include <string_view>
+
 namespace SongDetailsCache {
     /// @brief Enum describing Map Characteristics
-    enum class MapCharacteristic {
+    enum class SONGDETAILS_EXPORT MapCharacteristic {
         Custom = 0,
         Standard = 1,
         OneSaber = 2,
@@ -22,7 +24,7 @@ namespace SongDetailsCache {
 // if we have fmt, add formatting methods
 #if __has_include("fmt/core.h")
 #include <fmt/core.h>
-template <> struct fmt::formatter<::SongDetailsCache::MapCharacteristic> : formatter<string_view> {
+template <> struct SONGDETAILS_EXPORT fmt::formatter<::SongDetailsCache::MapCharacteristic> : formatter<string_view> {
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::MapCharacteristic c, FormatContext& ctx) {

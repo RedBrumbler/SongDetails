@@ -1,9 +1,10 @@
 #pragma once
 
+#include "../_config.h"
 #include <vector>
 namespace SongDetailsCache {
     /// @brief Enum describing common mods that maps tend to use
-    enum class MapMods {
+    enum class SONGDETAILS_EXPORT MapMods {
         None =              0x0,
         NoodleExtensions =  0x1,
         NE =                0x1, // alias
@@ -59,7 +60,7 @@ namespace SongDetailsCache {
 #if __has_include("fmt/core.h")
 #include <fmt/core.h>
 #include <sstream>
-template <> struct fmt::formatter<::SongDetailsCache::MapMods> : formatter<string_view> {
+template <> struct SONGDETAILS_EXPORT fmt::formatter<::SongDetailsCache::MapMods> : formatter<string_view> {
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::MapMods c, FormatContext& ctx) {

@@ -17,7 +17,7 @@ set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # compile options used
-add_compile_options(-frtti -fPIE -fPIC -fexceptions)
+add_compile_options(-frtti -fPIE -fPIC -fexceptions -fvisibility=hidden)
 # compile definitions used
 add_compile_definitions(VERSION=\"${MOD_VERSION}\")
 add_compile_definitions(MOD_ID=\"${MOD_ID}\")
@@ -28,13 +28,12 @@ RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
 
 # add all src files to compile
 add_library(
-    ${COMPILE_ID} 
+    ${COMPILE_ID}
     SHARED
     ${cpp_file_list}
     ${c_file_list}
     ${CMAKE_SOURCE_DIR}/src/SongProto.pb.cc # it ends in .cc so add it manually
 )
-
 
 # get the vcpkg dir from env variables
 if(EXISTS $ENV{VCPKG_ROOT})
