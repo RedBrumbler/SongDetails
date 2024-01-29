@@ -1,30 +1,30 @@
-# include some defines automatically made by qpm
-include(qpm_defines.cmake)
-
 cmake_minimum_required(VERSION 3.22)
-project(${COMPILE_ID})
+
+include(${CMAKE_CURRENT_LIST_DIR}/cmake/quest.cmake)
+
+project(${PACKAGE_ID} VERSION ${PACKAGE_VERSION})
 
 # c++ standard
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED 20)
-
-# Enable link time optimization
-# In my experience, this can be highly unstable but it nets a huge size optimization and likely performance
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 # define that stores the actual source directory
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(COMPILE_ID songdetails)
 
 # compile options used
 add_compile_options(-frtti -fPIE -fPIC -fexceptions -fvisibility=hidden)
 # compile definitions used
-add_compile_definitions(VERSION=\"${MOD_VERSION}\")
-add_compile_definitions(MOD_ID=\"${MOD_ID}\")
+add_compile_definitions(VERSION=\"${PACKAGE_VERSION}\")
+add_compile_definitions(MOD_ID=\"${PACKAGE_ID}\")
+add_compile_definitions(FMT_HEADER_ONLY)
 
 # recursively get all src files
-RECURSE_FILES(cpp_file_list ${SOURCE_DIR}/*.cpp)
-RECURSE_FILES(c_file_list ${SOURCE_DIR}/*.c)
+file(GLOB_RECURSE cpp_file_list ${SOURCE_DIR}/*.cpp)
+file(GLOB_RECURSE c_file_list ${SOURCE_DIR}/*.c)
 
 # add all src files to compile
 add_library(
@@ -50,15 +50,22 @@ target_include_directories(${COMPILE_ID} PRIVATE ${SOURCE_DIR})
 target_include_directories(${COMPILE_ID} PRIVATE ${INCLUDE_DIR})
 # add shared dir as include dir
 target_include_directories(${COMPILE_ID} PUBLIC ${SHARED_DIR})
-# codegen includes
-target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes/${CODEGEN_ID}/include)
-
 # gzip library
 target_include_directories(${COMPILE_ID} PRIVATE ${INCLUDE_DIR}/gzip-hpp/include)
 
-target_link_libraries(${COMPILE_ID} PRIVATE -llog -lz "${VCPKG_ROOT}/installed/arm64-android/lib/libprotobuf.a")
-# add extern stuff like libs and other includes
-include(extern.cmake)
+target_include_directories(${COMPILE_ID} PRIVATE ${EXTERN_DIR}/includes)
+target_include_directories(${COMPILE_ID} SYSTEM PRIVATE ${EXTERN_DIR}/includes/libil2cpp/il2cpp/libil2cpp)
+target_include_directories(${COMPILE_ID} SYSTEM PRIVATE ${EXTERN_DIR}/includes/fmt/fmt/include/)
+
+target_link_libraries(
+    ${COMPILE_ID}
+    PRIVATE
+    -llog
+    -lz
+    "${VCPKG_ROOT}/installed/arm64-android/lib/libprotobuf.a"
+    ${EXTERN_DIR}/libs/libcurl.a
+    ${EXTERN_DIR}/libs/libpaperlog.so
+)
 
 add_custom_command(TARGET ${COMPILE_ID} POST_BUILD
             COMMAND ${CMAKE_STRIP} -g -S -d --strip-all
