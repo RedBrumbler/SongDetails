@@ -1,10 +1,11 @@
 #pragma once
 
+#include "./_config.h"
 #include "Data/SongDifficulty.hpp"
 #include <vector>
 
 namespace SongDetailsCache {
-    struct DiffArray {
+    struct SONGDETAILS_EXPORT DiffArray {
 		public:
             using const_iterator = std::vector<SongDifficulty>::const_iterator;
 			[[nodiscard]] const_iterator begin() const noexcept;

@@ -8,7 +8,7 @@
     "url": "https://github.com/RedBrumbler/SongDetails",
     "additionalData": {
       "overrideSoName": "libsongdetails.so",
-      "cmake": true
+      "cmake": false
     }
   },
   "dependencies": [

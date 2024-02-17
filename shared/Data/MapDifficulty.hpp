@@ -1,8 +1,10 @@
 #pragma once
 
+#include "../_config.h"
+
 namespace SongDetailsCache {
     /// @brief Enum describing Map Difficulties
-    enum class MapDifficulty {
+    enum class SONGDETAILS_EXPORT MapDifficulty {
         Easy = 0,
         Normal = 1,
         Hard = 2,
@@ -15,7 +17,7 @@ namespace SongDetailsCache {
 #if __has_include("fmt/core.h")
 #include <fmt/core.h>
 #include <string_view>
-template <> struct fmt::formatter<::SongDetailsCache::MapDifficulty> : formatter<string_view> {
+template <> struct SONGDETAILS_EXPORT fmt::formatter<::SongDetailsCache::MapDifficulty> : formatter<string_view> {
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::MapDifficulty c, FormatContext& ctx) {

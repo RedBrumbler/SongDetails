@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../_config.h"
 #include "SongDifficulty.hpp"
 #include "RankedStatus.hpp"
 #include "RankedStates.hpp"
@@ -14,7 +15,7 @@ namespace SongDetailsCache {
     namespace Structs {
         struct SongProto;
     }
-    struct Song {
+    struct SONGDETAILS_EXPORT Song {
         public:
             /// @brief bpm of this map
             const float bpm;

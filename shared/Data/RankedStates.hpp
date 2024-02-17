@@ -1,10 +1,12 @@
 #pragma once
 
+#include "../_config.h"
 #include <vector>
+
 namespace SongDetailsCache {
 
     /// @brief Enum describing what ranked states a map can be in
-    enum class RankedStates {
+    enum class SONGDETAILS_EXPORT RankedStates {
         Unranked =             0,
         ScoresaberRanked =     1 << 0,
         SR =                   1 << 0, // alias
@@ -51,11 +53,11 @@ namespace SongDetailsCache {
 #if __has_include("fmt/core.h")
 #include <fmt/core.h>
 #include <sstream>
-template <> struct fmt::formatter<::SongDetailsCache::RankedStates> : formatter<string_view> {
+template <> struct SONGDETAILS_EXPORT fmt::formatter<::SongDetailsCache::RankedStates> : formatter<string_view> {
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::RankedStates s, FormatContext& ctx) {
-        
+
         std::string result = "";
         if (hasFlags(s, SongDetailsCache::RankedStates::BeatleaderRanked) ) {
             result += "BeatleaderRanked";

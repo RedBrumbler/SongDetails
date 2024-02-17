@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../_config.h"
 #include "MapCharacteristic.hpp"
 #include "MapDifficulty.hpp"
 #include "MapMods.hpp"
@@ -9,8 +10,8 @@ namespace SongDetailsCache {
     namespace Structs {
         struct SongDifficultyProto;
     };
-    struct Song;
-    struct SongDifficulty {
+    struct SONGDETAILS_EXPORT Song;
+    struct SONGDETAILS_EXPORT SongDifficulty {
         public:
             static const SongDifficulty none;
             /// @brief Scoresaber difficulty rating of this difficulty
@@ -40,7 +41,7 @@ namespace SongDetailsCache {
 
             /// @brief Returns if the Difficulty is ranked on BeatLeader
             bool rankedBL() const noexcept;
-            
+
             /// @brief Returns if the Difficulty is ranked on Scoresaber
             bool rankedSS() const noexcept;
 

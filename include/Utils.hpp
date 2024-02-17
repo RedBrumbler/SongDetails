@@ -46,6 +46,6 @@ namespace SongDetailsCache {
             /// @return async future to await for the response
             static std::future<WebResponse> GetAsync(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
         private:
-            static WebResponse GetAsync_internal(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers);
+            static WebResponse GetAsync_internal(std::string url, uint32_t timeout, std::unordered_map<std::string, std::string> headers);
     };
 }

@@ -146,10 +146,10 @@ namespace SongDetailsCache {
 	}
 
     std::future<WebUtil::WebResponse> WebUtil::GetAsync(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
-        return std::async(std::launch::async, std::bind(&WebUtil::GetAsync_internal, url, timeout, headers));
+        return std::async(std::launch::async, std::bind(&WebUtil::GetAsync_internal, std::string(url), timeout, headers));
     }
 
-    WebUtil::WebResponse WebUtil::GetAsync_internal(std::string_view url, uint32_t timeout, const std::unordered_map<std::string, std::string>& headers) {
+    WebUtil::WebResponse WebUtil::GetAsync_internal(std::string url, uint32_t timeout, std::unordered_map<std::string, std::string> headers) {
         WebResponse response;
 
         // Init curl

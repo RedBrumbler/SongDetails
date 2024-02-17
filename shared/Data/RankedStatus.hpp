@@ -1,7 +1,9 @@
 #pragma once
 
+#include "../_config.h"
+
 namespace SongDetailsCache {
-    enum class RankedStatus {
+    enum class SONGDETAILS_EXPORT RankedStatus {
         Unranked = 0,
         Ranked = 1,
         Qualified = 2,
@@ -13,7 +15,7 @@ namespace SongDetailsCache {
 #if __has_include("fmt/core.h")
 #include <fmt/core.h>
 #include <string_view>
-template <> struct fmt::formatter<::SongDetailsCache::RankedStatus> : formatter<string_view> {
+template <> struct SONGDETAILS_EXPORT fmt::formatter<::SongDetailsCache::RankedStatus> : formatter<string_view> {
     // parse is inherited from formatter<string_view>.
     template <typename FormatContext>
     auto format(::SongDetailsCache::RankedStatus s, FormatContext& ctx) {
