@@ -22,6 +22,9 @@ add_compile_definitions(VERSION=\"${PACKAGE_VERSION}\")
 add_compile_definitions(MOD_ID=\"${PACKAGE_ID}\")
 add_compile_definitions(FMT_HEADER_ONLY)
 
+# DEFINE UNITY_2021
+add_compile_definitions(UNITY_2021)
+
 # recursively get all src files
 file(GLOB_RECURSE cpp_file_list ${SOURCE_DIR}/*.cpp)
 file(GLOB_RECURSE c_file_list ${SOURCE_DIR}/*.c)
