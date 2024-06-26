@@ -48,7 +48,7 @@
       ],
       "qmod": [
         "pwsh ./scripts/build.ps1 -clean",
-        "qpm qmod build --isLibrary true",
+        "qpm qmod manifest",
         "pwsh ./scripts/createqmod.ps1 SongDetails -clean"
       ]
     }

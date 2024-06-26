@@ -6,6 +6,7 @@
     "version": "${version}",
     "packageId": "com.beatgames.beatsaber",
     "description": "Library that provides details about songs from BeatSaver",
+    "isLibrary": true,
     "dependencies": [],
     "modFiles": [],
     "libraryFiles": [
